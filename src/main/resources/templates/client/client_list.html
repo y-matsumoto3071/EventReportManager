@@ -14,7 +14,7 @@
 </head>
 
 <body class="bg-light">
-
+<div th:replace="~{block/header::header}"></div>
   <div class="container bg-white py-3 my-3">
     <p class="mt-3 mb-3">
       <button type="button" class="btn btn-outline-primary" onclick="location.href='client_edit.html'">顧客新規登録</button>
@@ -54,6 +54,7 @@
       </div>
     </div>
   </div>
+<div th:replace="~{block/footer::footer}"></div>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -5,6 +5,7 @@
 <title>面談報告書一覧</title>
 </head>
 <body class="bg-light">
+<div th:replace="~{block/header::header}"></div>
   <img src="../img/logo.png" alt="ERM" class="rounded mx-auto d-block">
   <p>
     <button type="button" class="btn btn-outline-primary" onclick="location.href='report_create.html'">新規作成</button>
@@ -101,6 +102,7 @@
       </tr>
     </tbody>
   </table>
+<div th:replace="~{block/footer::footer}"></div>
 </body>
 
 </html>
