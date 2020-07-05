@@ -24,6 +24,7 @@ public class ReportDao {
 	}
 
 	public void insertReport(Report report) {
+		jdbcTemplate.update("sql", "args");
 	}
 
 
