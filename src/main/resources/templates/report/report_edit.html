@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="ja">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta charset="UTF-8">
   <title>面談報告書編集</title>
 </head>
 
@@ -41,7 +41,7 @@
     <label for="eventFeedbackByCCG">CCG担当からの評価</label><br>
     <textarea id="eventFeedbackByCCG"></textarea>
     <p>
-      <button type="button" class="btn btn-outline-primary" onclick="location.href='report_confirm.html'">確認</button>
+      <button type="submit" class="btn btn-outline-primary" onclick="location.href='report_confirm.html'">確認</button>
       <button type="button" class="btn btn-outline-primary" onclick="location.href='report_create.html'">戻る</button>
       <button type="button" class="btn btn-outline-primary" onclick="location.href='report_list.html'">キャンセル</button>
     </p>

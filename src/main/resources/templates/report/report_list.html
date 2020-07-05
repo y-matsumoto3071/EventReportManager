@@ -8,8 +8,8 @@
 <div th:replace="~{block/header::header}"></div>
   <img src="../img/logo.png" alt="ERM" class="rounded mx-auto d-block">
   <p>
-    <button type="button" class="btn btn-outline-primary" onclick="location.href='report_create.html'">新規作成</button>
-    <button type="button" class="btn btn-outline-primary">選択した報告書を削除</button>
+    <button type="button">新規作成</button>
+    <button type="button">選択した報告書を削除</button>
   </p>
   <form>
     <p>
@@ -20,12 +20,12 @@
       <input type="text">
     </p>
     <p>
-      <input class="form-check-input ml-3" type="checkbox" id="inlineCheckbox1" value="option1">
-      <label class="form-check-label" for="inlineCheckbox1">日付フィルター</label>
-      <input class="ml-3 " type="date" id="startDate">
-      <label class="ml-3 form-check-label" for="endDate">～</label>
-      <input class="ml-3" type="date" id="endDate">
-      <button type="button" class="ml-3 btn btn-outline-primary">検索</button>
+      <input type="checkbox" id="inlineCheckbox1" value="option3">
+      <label for="inlineCheckbox1">日付フィルター</label>
+      <input type="date" id="startDate">
+      <label for="endDate">～</label>
+      <input type="date" id="endDate">
+      <button type="submit">検索</button>
     </p>
   </form>
   <table>
@@ -45,6 +45,7 @@
         <td><a href="report_browse.html">XX株式会社</a></td>
         <td>2020-02-27</td>
         <td>根草須太郎</td>
+        <!-- Todo: 案件概要は一部（25文字程度）が表示され、以降は"…"で省略されるようにしてみましょう -->
         <td>人事総務向けシステムの新規案件の設計、構築、テスト…</td>
         <td><a href="report_edit.html"><svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16"
               fill="currentColor" xmlns="http://www.w3.org/2000/svg">
