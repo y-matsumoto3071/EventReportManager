@@ -1,7 +1,7 @@
 /**
  *
  */
-package jp.co.nexus.app.report;
+package jp.co.nexus.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
