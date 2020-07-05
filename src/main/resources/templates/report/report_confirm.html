@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <title>面談報告書内容確認</title>
+</head>
+
+<body class="bg-light">
+  <p>内容を確認して、問題がなければ登録ボタンを押下してください。</p>
+  <form>
+    <p>
+      <label for="eventDate">面談日</label>
+      <input type="date" id="eventDate" readonly>
+      <label for="eventStartTime">時間</label>
+      <input type="time" id="eventStartTime" readonly>
+      <label for="eventEndTime">～</label>
+      <input type="time" id="eventEndTime" readonly>
+    </p>
+    <p>
+      <label for="createDate">報告日</label>
+      <input type="date" id="createDate" value="2020-07-01" readonly>
+      <label for="createEmployee">氏名</label>
+      <input type="text" id="createEmployee" readonly>
+    </p>
+    <h3>顧客</h3>
+    <label for="clientName">社名</label>
+    <input type="text" id="clientName" readonly>
+    <label for="contactName">担当者（敬称略）</label>
+    <input type="text" id="contactName" readonly>
+    <p>
+      <label for="eventMember">面談参加者（敬称略）</label>
+      <input type="text" id="eventMember" readonly>
+      <label class="ml-2" for="eventLocation">面談場所</label>
+      <input type="text" id="eventLocation" readonly>
+    </p>
+    <label for="eventProject">案件概要</label><br>
+    <textarea id="eventProject" readonly></textarea><br>
+    <label for="eventSession">質疑応答</label><br>
+    <textarea id="eventSession" readonly></textarea><br>
+    <label for="eventReport">考察</label><br>
+    <textarea id="eventReport" readonly></textarea><br>
+    <label for="eventFeedbackByCCG">CCG担当からの評価</label><br>
+    <textarea id="eventFeedbackByCCG" readonly></textarea><br>
+    <p>
+      <button type="button" onclick="location.href='report_browse.html'">登録</button>
+      <button type="button" onclick="location.href='report_create.html'">戻る</button>
+      <button type="button" onclick="location.href='report_list.html'">キャンセル</button>
+    </p>
+  </form>
+</body>
+
+</html>

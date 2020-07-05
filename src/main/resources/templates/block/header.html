@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<header th:fragment="header">
+<nav>
+    <a href="#" th:href="@{/report/report_list}">ERM</a>
+    <ul>
+      <li>
+        <a href="#" th:href="@{/report/report_list}">面談報告書一覧</a>
+      </li>
+      <li>
+        <a href="#" th:href="@{/client/client_list}">顧客マスタ</a>
+      </li>
+      <li>
+        <a href="#" th:href="@{/employee/employee_list}">社員マスタ</a>
+      </li>
+    </ul>
+</nav>
+</header>
+
+</html>

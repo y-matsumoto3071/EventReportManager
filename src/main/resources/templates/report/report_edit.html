@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <title>面談報告書編集</title>
+</head>
+
+<body>
+  <form>
+    <p>
+      <label for="eventDate">面談日</label>
+      <input type="date" id="eventDate">
+      <label for="eventStartTime">時間</label>
+      <input type="time" id="eventStartTime">
+      <label for="eventEndTime">～</label>
+      <input type="time" id="eventEndTime">
+    </p>
+    <p>
+      <label for="createDate">報告日</label>
+      <input type="date" id="createDate" value="2020-07-01" readonly>
+      <label for="createEmployee">氏名</label>
+      <input type="text" id="createEmployee">
+    </p>
+    <h3>顧客</h3>
+    <label for="clientName">社名</label>
+    <input type="text" id="clientName">
+    <label for="contactName">担当者（敬称略）</label>
+    <input type="text" id="contactName">
+    <p>
+      <label for="eventMember">面談参加者（敬称略）</label>
+      <input type="text" id="eventMember">
+      <label for="eventLocation">面談場所</label>
+      <input type="text" id="eventLocation">
+    </p>
+    <label for="eventProject">案件概要</label><br>
+    <textarea id="eventProject"></textarea><br>
+    <label for="eventSession">質疑応答</label><br>
+    <textarea id="eventSession"></textarea><br>
+    <label for="eventReport">考察</label><br>
+    <textarea id="eventReport"></textarea><br>
+    <label for="eventFeedbackByCCG">CCG担当からの評価</label><br>
+    <textarea id="eventFeedbackByCCG"></textarea>
+    <p>
+      <button type="button" class="btn btn-outline-primary" onclick="location.href='report_confirm.html'">確認</button>
+      <button type="button" class="btn btn-outline-primary" onclick="location.href='report_create.html'">戻る</button>
+      <button type="button" class="btn btn-outline-primary" onclick="location.href='report_list.html'">キャンセル</button>
+    </p>
+  </form>
+</body>
+
+</html>
