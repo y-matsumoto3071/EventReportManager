@@ -21,5 +21,10 @@ public class ClientController {
 		return "client/client_list";
 	}
 
+	@GetMapping("/edit")
+	public String clientEdit() {
+		return "client/client_edit";
+	}
+
 
 }

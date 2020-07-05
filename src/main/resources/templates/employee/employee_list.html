@@ -16,7 +16,7 @@
 <div th:replace="~{block/header::header}"></div>
   <div class="container bg-white py-3 my-3">
     <p class="mt-3 mb-3">
-      <button type="button" class="btn btn-outline-primary" onclick="location.href='employee_edit.html'">社員新規登録</button>
+      <button type="button" class="btn btn-outline-primary" th:onclick="@{location.href='/employee/edit'}">社員新規登録</button>
     </p>
     <table class="mt-3 table table-sm table-striped">
       <thead>
@@ -57,7 +57,7 @@
         <label class="col-form-label" for="adminPW">管理者PW</label>
         <input class="ml-3 form-control" type="password" id="adminPW">
         <button type="button" class="btn btn-outline-primary ml-3"
-          onclick="location.href='employee_list.html'">選択した社員を削除（管理者のみ）</button>
+           th:onclick="@{location.href='/employee/list'}">選択した社員を削除（管理者のみ）</button>
       </div>
     </div>
   </div>

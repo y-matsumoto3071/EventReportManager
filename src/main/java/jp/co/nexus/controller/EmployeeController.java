@@ -21,5 +21,10 @@ public class EmployeeController {
 		return "employee/employee_list";
 	}
 
+	@GetMapping("/edit")
+	public String employeeEdit() {
+		return "employee/employee_edit";
+	}
+
 
 }
