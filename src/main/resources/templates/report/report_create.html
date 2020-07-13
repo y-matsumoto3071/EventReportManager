@@ -1,131 +1,181 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
 <title>面談報告書新規作成</title>
 </head>
 
 <body>
-  <h3>面談報告書新規作成</h3>
-  <form>
-    <h4>顧客選択</h4>
-    <span id="inputGroup-sizing-default">顧客IDを入力</span>
-    <input type="number">
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">顧客名</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>XX株式会社</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>XX堂</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>株式会社XXXXX</td>
-        </tr>
-        <tr>
-          <th scope="row">4</th>
-          <td>XX株式会社</td>
-        </tr>
-        <tr>
-          <th scope="row">5</th>
-          <td>XX堂</td>
-        </tr>
-        <tr>
-          <th scope="row">6</th>
-          <td>株式会社XXXXX</td>
-        </tr>
-        <tr>
-          <th scope="row">7</th>
-          <td>XX株式会社</td>
-        </tr>
-        <tr>
-          <th scope="row">8</th>
-          <td>XX堂</td>
-        </tr>
-        <tr>
-          <th scope="row">9</th>
-          <td>株式会社XXXXX</td>
-        </tr>
-        <tr>
-          <th scope="row">10</th>
-          <td>株式会社XXXXX</td>
-        </tr>
-        <tr>
-          <th scope="row">11</th>
-          <td>株式会社XXXXX</td>
-        </tr>
-      </tbody>
-    </table>
-    <h4>社員選択</h4>
-    <span>社員IDを入力：CCG担当</span>
-    <input type="number">
-    <span>社員IDを入力：作成者</span>
-    <input type="number">
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">部署名</th>
-          <th scope="col">社員名</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>CCG</td>
-          <td>江渕太郎</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>CCG</td>
-          <td>廣田有都</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>SCG</td>
-          <td>本間洋平</td>
-        </tr>
-        <tr>
-          <th scope="row">4</th>
-          <td>SCG</td>
-          <td>根草須太郎</td>
-        </tr>
-        <tr>
-          <th scope="row">5</th>
-          <td>SCG</td>
-          <td>根草須太郎</td>
-        </tr>
-        <tr>
-          <th scope="row">6</th>
-          <td>SCG</td>
-          <td>根草須太郎</td>
-        </tr>
-        <tr>
-          <th scope="row">7</th>
-          <td>SCG</td>
-          <td>根草須太郎</td>
-        </tr>
-        <tr>
-          <th scope="row">8</th>
-          <td>SCG</td>
-          <td>根草須太郎</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>
-      <button type="submit">次へ</button>
-      <button type="button">キャンセル</button>
-    </p>
-  </form>
+<div th:replace="~{block/header::header}"></div>
+
+  <div class="container bg-white py-3 my-3">
+    <h3>面談報告書新規作成</h3>
+    <form class="mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <h4>顧客選択</h4>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">顧客IDを入力</span>
+            </div>
+            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div class="overflow-auto" style="height:355px;">
+            <table class="table table-sm table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">顧客名</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>XX株式会社</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>XX堂</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>株式会社XXXXX</td>
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>XX株式会社</td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>XX堂</td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>株式会社XXXXX</td>
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>XX株式会社</td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>XX堂</td>
+                </tr>
+                <tr>
+                  <th scope="row">9</th>
+                  <td>株式会社XXXXX</td>
+                </tr>
+                <tr>
+                  <th scope="row">10</th>
+                  <td>株式会社XXXXX</td>
+                </tr>
+                <tr>
+                  <th scope="row">11</th>
+                  <td>株式会社XXXXX</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h4>社員選択</h4>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">社員IDを入力：CCG担当</span>
+            </div>
+            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">社員IDを入力：作成者</span>
+            </div>
+            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div class="overflow-auto" style="height:300px;">
+            <table class="table table-sm table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">部署名</th>
+                  <th scope="col">社員名</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>CCG</td>
+                  <td>江渕太郎</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>CCG</td>
+                  <td>廣田有都</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>SCG</td>
+                  <td>本間洋平</td>
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>SCG</td>
+                  <td>根草須太郎</td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>SCG</td>
+                  <td>根草須太郎</td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>SCG</td>
+                  <td>根草須太郎</td>
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>SCG</td>
+                  <td>根草須太郎</td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>SCG</td>
+                  <td>根草須太郎</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <p class="mt-5 ml-4">
+            <button type="button" class="btn btn-outline-primary"
+              onclick="location.href='report_edit.html'">次へ</button>
+            <button type="button" class="btn btn-outline-primary"
+              onclick="location.href='report_list.html'">キャンセル</button>
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+<div th:replace="~{block/footer::footer}"></div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
