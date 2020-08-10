@@ -1,79 +1,102 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
 
-  <title>社員マスタ</title>
+<title>社員マスタ</title>
 </head>
 
 <body class="bg-light">
-<div th:replace="~{block/header::header}"></div>
-  <div class="container bg-white py-3 my-3">
-    <p class="mt-3 mb-3">
-      <button type="button" class="btn btn-outline-primary" th:onclick="@{location.href='/employee/edit'}">社員新規登録</button>
-    </p>
-    <table class="mt-3 table table-sm table-striped">
-      <thead>
-        <tr>
-          <th scope="col"><input type="checkbox" disabled='disabled' checked='checked'></th>
-          <th scope="col">社員ID</th>
-          <th scope="col">社員名</th>
-          <th scope="col">所属グループ</th>
-          <th scope="col">所属チーム</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row"><input type="checkbox" name="selectCheck"></th>
-          <td>1</td>
-          <td class="position-relative"><a href="employee_edit.html" class="stretched-link">江渕太郎</a></td>
-          <td>CCG</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th scope="row"><input type="checkbox" name="selectCheck"></th>
-          <td>2</td>
-          <td class="position-relative"><a href="employee_edit.html" class="stretched-link">本間洋平</a></td>
-          <td>SCG</td>
-          <td>東京5チーム</td>
-        </tr>
-        <tr>
-          <th scope="row"><input type="checkbox" name="selectCheck"></th>
-          <td>3</td>
-          <td class="position-relative"><a href="employee_edit.html" class="stretched-link">針貝将矢</a></td>
-          <td>SCG</td>
-          <td>東京1チーム</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="mt-5 row">
-      <div class="col form-inline">
-        <label class="col-form-label" for="adminPW">管理者PW</label>
-        <input class="ml-3 form-control" type="password" id="adminPW">
-        <button type="button" class="btn btn-outline-primary ml-3"
-           th:onclick="@{location.href='/employee/list'}">選択した社員を削除（管理者のみ）</button>
-      </div>
-    </div>
-  </div>
-<div th:replace="~{block/footer::footer}"></div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-    crossorigin="anonymous"></script>
+	<header>
+		<!--ヘッダー部分は、Thymeleafで共通化すること-->
+		<div th:replace="~{block/header::header}"></div>
+		<!--ヘッダー部分は、Thymeleafで共通化すること-->
+	</header>
+	<div class="container bg-white py-3 my-3">
+
+	<!-- 各注意文を表示する-->
+	<div th:text="${Result}" style="color: red; font-size: 20px;"></div>
+
+	<form method="post" action="/employee/list" name="forms">
+
+			<p class="mt-3 mb-3">
+				<button type="button" class="btn btn-outline-primary"
+					onclick="location.href='/employee/edit'">社員新規登録</button>
+			</p>
+			<table class="mt-3 table table-sm table-striped">
+				<thead>
+					<tr>
+						<th scope="col"><input type="checkbox" disabled='disabled'
+							checked='checked'></th>
+						<th scope="col">社員ID</th>
+						<th scope="col">社員名</th>
+						<th scope="col">所属グループ</th>
+						<th scope="col">所属チーム</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<!-- ★th:ifを使って論理削除された面談は一覧に表示させない -->
+
+					<tr th:each="item:${employee_list}" th:if="${item.deleteflg != 0}">
+
+						<th scope="row"><input type="checkbox" name="selectCheck"
+							th:value="${item.employee_id}"></th>
+						<td th:text="${item.employee_id}"></td>
+						<td class="position-relative"><a
+							href="javascript:forms.submit()"
+							th:href="@{/employee_edit/{employee_id}(employee_id=${item.employee_id})}"
+							class="stretched-link" th:text="${item.employee_name}"> </a></td>
+
+						<!-- ★substringBefore/Afterを利用し、区切り文字の前後を表示 -->
+						<td th:text="${#strings.substringBefore(item.employee_category,',')}"></td>
+						<td th:text="${#strings.substringAfter(item.employee_category,',')}"></td>
+
+					</tr>
+				</tbody>
+
+			</table>
+			<div class="mt-5 row">
+				<div class="col form-inline">
+					<label class="col-form-label" for="adminPW">管理者PW</label> <input
+						class="ml-3 form-control" type="password" id="adminPW" name="adminPW">
+					<button type="submit" class="btn btn-outline-primary ml-3">選択した社員を削除（管理者のみ）</button>
+				</div>
+			</div>
+	</form>
+	</div>
+
+	<footer>
+		<!--フッター部分は、Thymeleafで共通化すること-->
+		<div class="bg-dark text-white text-center p-3">Copyright ©
+			Nexus corporation. All Rights Reserved.</div>
+		<!--フッター部分は、Thymeleafで共通化すること-->
+	</footer>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>
