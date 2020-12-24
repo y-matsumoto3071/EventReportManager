@@ -50,7 +50,7 @@ public class EmployeeDao {
 		for (String id : e_id) {
 
 			// SQL文作成
-			String sql = "UPDATE employee SET employee_status = '0', "
+			String sql = "UPDATE employee SET deleteflg = '0', "
 					+ "employee_name = concat(employee_name, '【廃止】')  "
 					+ "WHERE employee_id =?";
 
@@ -72,7 +72,7 @@ public class EmployeeDao {
 		int result = 0;
 
 		// SQL文作成
-		String sql = "INSERT INTO employee (employee_name, employee_category, employee_status) VALUES (?, ?, 1)";
+		String sql = "INSERT INTO employee (employee_name, employee_category, deleteflg) VALUES (?, ?, 1)";
 
 		// ？の箇所を置換するデータの配列を定義
 		Object[] param = { e_name,e_category };

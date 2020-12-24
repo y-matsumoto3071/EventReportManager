@@ -46,7 +46,7 @@
 				<tbody>
 					<!-- ★th:ifを使って論理削除された面談は一覧に表示させない -->
 
-					<tr th:each="item:${employee_list}" th:if="${item.employee_status != 0}">
+					<tr th:each="item:${employee_list}" th:if="${item.deleteflg != 0}">
 
 						<th scope="row"><input type="checkbox" name="selectCheck"
 							th:value="${item.employee_id}"></th>
