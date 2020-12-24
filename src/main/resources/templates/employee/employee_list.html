@@ -46,14 +46,14 @@
 				<tbody>
 					<!-- ★th:ifを使って論理削除された面談は一覧に表示させない -->
 
-					<tr th:each="item:${employee_list}" th:if="${item.deleteflg != 0}">
+					<tr th:each="item:${employee_list}" th:if="${item.employee_status != 0}">
 
 						<th scope="row"><input type="checkbox" name="selectCheck"
 							th:value="${item.employee_id}"></th>
 						<td th:text="${item.employee_id}"></td>
 						<td class="position-relative"><a
 							href="javascript:forms.submit()"
-							th:href="@{/employee_edit/{employee_id}(employee_id=${item.employee_id})}"
+							th:href="@{/employee/edit{employee_id}(employee_id=${item.employee_id})}"
 							class="stretched-link" th:text="${item.employee_name}"> </a></td>
 
 						<!-- ★substringBefore/Afterを利用し、区切り文字の前後を表示 -->

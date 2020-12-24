@@ -30,6 +30,7 @@
 				<div class="text-danger" th:text="${Result}"></div>
 
 				<h5>所属を選択</h5>
+				<input type="hidden" id="employeeId" class="form-control ml-3" name="employee_id" th:value="${session.e_id}" >
 				<label for="select1a">所属グループ</label>
 				<select id="select1a" class="form-control mx-3" name="e_group">
 

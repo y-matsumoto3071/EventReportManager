@@ -69,7 +69,7 @@ public class EmployeeController {
 	 * 以下の時はエラーを発出
 	 * ・パスワード未入力
 	 * ・チェックボックス未選択
-	 * ・パスワードご入力
+	 * ・パスワード誤入力
 	 */
 	@PostMapping("/list")
 	public String deleteEmployee(@RequestParam(name = "selectCheck", required = false) String[] e_id,
@@ -86,7 +86,7 @@ public class EmployeeController {
 			attr.addFlashAttribute("Result", "削除する社員を選択してください。");
 			return "redirect:/employee/list";
 		} else if (adminPW.equals(active_pw)) {
-			//論理削除
+			//★論理削除を実行
 			int result = employeeService.deleteEmployee(e_id);
 			attr.addFlashAttribute("Result", result + "件削除しました。");
 		} else {
@@ -94,7 +94,7 @@ public class EmployeeController {
 			return "redirect:/employee/list";
 		}
 
-		// 面談報告書一覧画面に遷移
+		//社員一覧画面に遷移
 		return "redirect:/employee/list";
 	}
 
@@ -112,7 +112,7 @@ public class EmployeeController {
 			Model model,
 			RedirectAttributes attr) {
 
-		//社員名が重複していると発生するDB例外のための例外処理
+		//社員名が重複していると発生するExceptionのための例外処理
 		try {
 			if (e_name.equals("")) {
 				attr.addFlashAttribute("Result", "名前を入力してください。");
@@ -124,7 +124,7 @@ public class EmployeeController {
 			//★カテゴリ組み合わせチェック
 			int check = ecm.categoryCheck(e_category);
 			if(check==1) {
-				attr.addFlashAttribute("Result", "適切な組み合わせを選んでください。");
+				attr.addFlashAttribute("Result", "適切な組み合わせを選んでください。<br>CCG : 〇〇エリア、SCG : 〇〇チーム");
 				return "redirect:/employee/edit";
 			}
 
@@ -145,8 +145,9 @@ public class EmployeeController {
 			attr.addFlashAttribute("Result", "登録が完了しました。");
 
 		} catch (Exception e) {
+			e.printStackTrace();
 
-			attr.addFlashAttribute("Result", "社名が重複しています。");
+			attr.addFlashAttribute("Result", "社員名が重複しています。");
 			return "redirect:/employee/edit";
 
 		}
@@ -154,7 +155,7 @@ public class EmployeeController {
 	}
 
 	//一覧から社員名を選択したときに実行する（編集）
-	@GetMapping("/edit/{employee_id}")
+	@GetMapping("/edit{employee_id}")
 	public String editEmployee(@PathVariable("employee_id") Integer e_id,
 			Model model) {
 
