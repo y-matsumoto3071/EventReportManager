@@ -96,10 +96,10 @@ public class ClientService{
 	 * @param c_id 削除対象の顧客IDのString配列
 	 * @return 削除件数
 	 */
-    public int deleteClient(String[] c_id) {
-        int result = clientDao.deleteClient(c_id);
-        return result;
-    }
+	public int deleteClient(String[] c_id) {
+		int result = clientDao.deleteClient(c_id);
+		return result;
+	}
 
 	/**
 	 * 顧客情報を新規登録する。
