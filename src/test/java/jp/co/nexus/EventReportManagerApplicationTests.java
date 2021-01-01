@@ -3,6 +3,8 @@ package jp.co.nexus;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +19,8 @@ class EventReportManagerApplicationTests {
 
 	@Test
 	void getPasswordTest() {
-		assertThat(passwordDao.getPassword(1).get("password_body").toString(), is("123456"));
+		Map<String, Object> map = passwordDao.getPassword(1);
+		assertThat(map.get("password_body").toString(), is("123456"));
 	}
 
 }
