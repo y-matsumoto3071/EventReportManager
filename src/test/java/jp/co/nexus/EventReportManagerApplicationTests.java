@@ -17,7 +17,7 @@ class EventReportManagerApplicationTests {
 
 	@Test
 	void getPasswordTest() {
-		assertThat(passwordDao.getPassword(1), is("123456"));
+		assertThat(passwordDao.getPassword(1).get("password_body").toString(), is("123456"));
 	}
 
 }
