@@ -37,7 +37,6 @@ public class ClientService{
 	 * @param c_name 編集後の顧客名のString
 	 * @param c_id 編集対象の顧客IDのString
 	 * @return attributeValue エラーメッセージ
-	 * @exeption 顧客名が重複している場合、Exceptionをthrowする
 	 */
 	public String registJudge(String c_name, String c_id) {
 

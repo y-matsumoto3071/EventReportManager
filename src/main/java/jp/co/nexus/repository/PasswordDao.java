@@ -54,7 +54,6 @@ public class PasswordDao {
 		// クエリを実行
 		Map<String, Object> map = jdbcTemplate.queryForMap(sql, param);
 
-		// 取得したパスワードを返す
 		return map;
 	}
 }
