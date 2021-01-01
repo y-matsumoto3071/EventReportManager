@@ -22,10 +22,13 @@ import jp.co.nexus.service.ClientService;
 import jp.co.nexus.service.PasswordService;
 
 /**
- * @author Yuki Matsumoto
+ * ClientController.java
+ * 顧客情報管理機能に関するアプリケーション制御を行うクラス
+ *
+ * @author 本間 洋平
+ * @version 21/01/01 コメントの追加　担当者：松本雄樹
  *
  */
-
 @Controller
 @RequestMapping("/client")
 public class ClientController {
@@ -39,9 +42,15 @@ public class ClientController {
 	@Autowired
 	PasswordService passwordService;
 
-	//顧客マスタ一覧表示
+	/**
+	 * CL-010-010 顧客一覧画面遷移
+	 * 顧客情報一覧画面に遷移する
+	 */
 	@GetMapping("/list")
 	public String start(Model model) {
+
+		// 画面遷移先を顧客情報一覧画面に指定
+		String res = "client/client_list";
 
 		List<Map<String, Object>> list = clientService.searchAll();
 		model.addAttribute("client_list", list);
@@ -49,10 +58,11 @@ public class ClientController {
 		//編集に使ったセッションを削除
 		session.removeAttribute("c_id");
 
-		return "client/client_list";
+		return res;
 	}
 
-	/*
+	/**
+	 * CD-010-010 顧客削除処理
 	 * ★論理削除時に実行
 	 * 以下の時はエラーを発出
 	 * ・パスワード未入力
@@ -64,35 +74,56 @@ public class ClientController {
 			@RequestParam(name = "adminPW", defaultValue = "") String adminPW,
 			RedirectAttributes attr) {
 
+		// 画面遷移先を顧客情報一覧画面へのリダイレクトに指定
+		String res = "redirect:/client/list";
+
+		// エラーメッセージを格納する変数をインスタンス化
+		String attributeValue = new String();
+
 		List<Map<String, Object>> list = passwordService.searchPassword();
 		String active_pw = list.get(0).get("password_body").toString();
 
+		// パスワードが未入力の場合
 		if (adminPW.equals("")) {
-			attr.addFlashAttribute("Result", "パスワードを入力してください。");
-			return "redirect:/client/list";
+			attributeValue = "パスワードを入力してください。";
+
+		// 削除対象が選択されていない場合
 		} else if (c_id == null) {
-			attr.addFlashAttribute("Result", "削除する顧客を選択してください。");
-			return "redirect:/client/list";
+			attributeValue = "削除する顧客を選択してください。";
+
+		// 正規入力されている場合
 		} else if (adminPW.equals(active_pw)) {
-			//論理削除
+			//論理削除実行
 			int result = clientService.deleteClient(c_id);
-			attr.addFlashAttribute("Result", result + "件削除しました。");
+			attributeValue = result + "件削除しました。";
+
+		// 上記条件に合致しない場合、パスワード誤入力と判定
 		} else {
-			attr.addFlashAttribute("Result", "パスワードが間違っています。");
-			return "redirect:/client/list";
+			attributeValue = "パスワードが間違っています。";
+
 		}
 
-		// 面談報告書一覧画面に遷移
-		return "redirect:/client/list";
+		attr.addFlashAttribute("Result", attributeValue);
+
+		return res;
 	}
 
-	//登録・編集画面の表示
+	/**
+	 * CC-010-010 顧客情報登録画面遷移
+	 */
 	@GetMapping("/edit")
 	public String create() {
-		return "client/client_edit";
+
+		// 画面遷移先を顧客情報登録画面に指定
+		String res = "client/client_edit";
+
+		return res;
 	}
 
-	//登録・編集時に実行する
+	/**
+	 * CC-010-020_顧客新規登録内容DB登録
+	 * CE-010-020_顧客編集内容DB登録
+	 */
 	@PostMapping("/edit")
 	public String createClient(@RequestParam("c_Name") String c_name,
 			@RequestParam(name = "client_id", defaultValue = "") String c_id,
@@ -128,7 +159,9 @@ public class ClientController {
 		return "redirect:/client/list";
 	}
 
-	//一覧から顧客名を選択したときに実行する（編集）
+	/**
+	 * CE-010-010 顧客編集画面遷移
+	 */
 	@GetMapping("/edit/{client_id}")
 	public String editClient(@PathVariable("client_id") Integer c_id,
 			Model model) {

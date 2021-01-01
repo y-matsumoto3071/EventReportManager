@@ -7,13 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * ClientDao.java
+ * 顧客管理機能で使用する顧客情報の登録・検索・編集・削除に関するSQLを
+ * 作成して実行するクラス
+ *
+ * @author 本間 洋平
+ * @version 21/01/01 コメントの追加　担当者：松本雄樹
+ *
+ */
 @Repository
 public class ClientDao {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
-	//全検索する
+	/**
+	 * 顧客情報を全検索してListで返すSQLを実行する
+	 * @param なし
+	 * @return list 全検索結果のList
+	 */
 	public List<Map<String, Object>> searchAll() {
 
 		// SQL文作成
@@ -26,7 +39,11 @@ public class ClientDao {
 		return list;
 	}
 
-	//論理削除する
+	/**
+	 * 指定された顧客情報を論理削除するSQLを実行する
+	 * @param c_id 削除対象の顧客IDのString配列
+	 * @return 削除件数
+	 */
 	public int deleteClient(String[] c_id) {
 		// 削除した件数
 		int result = 0;
@@ -49,7 +66,11 @@ public class ClientDao {
 		return result;
 	}
 
-	// 顧客情報をIDで検索する
+	/**
+	 * 指定された顧客情報を抽出するSQLを実行する。
+	 * @param clientId 抽出対象の顧客IDのInteger
+	 * @return clt 抽出結果のMap
+	 */
 	public Map<String, Object> searchClient(Integer clientId) {
 
 		// SQL文作成
@@ -59,13 +80,17 @@ public class ClientDao {
 		Object[] param = { clientId };
 
 		// クエリを実行
-		Map<String, Object> user = jdbcTemplate.queryForMap(sql, param);
+		Map<String, Object> clt = jdbcTemplate.queryForMap(sql, param);
 
 		// 取得したデータを返す
-		return user;
+		return clt;
 	}
 
-	// 顧客情報を名前で検索する
+	/**
+	 * 指定された顧客情報を抽出するSQLを実行する。
+	 * @param search 抽出対象の顧客名のString
+	 * @return list 抽出結果のList
+	 */
 	public List<Map<String, Object>> searchClientList(String search) {
 		System.out.println("aadfadfa:" + search);
 
@@ -82,7 +107,11 @@ public class ClientDao {
 		return list;
 	}
 
-	//顧客登録用
+	/**
+	 * 顧客情報を新規登録するSQLを実行する。
+	 * @param c_name 登録する顧客名のString
+	 * @return 登録件数
+	 */
 	public int registClient(String c_name) {
 
 		// 実行結果
@@ -101,7 +130,11 @@ public class ClientDao {
 		return result;
 	}
 
-	//編集する
+	/**
+	 * 登録された顧客情報を編集するSQLを実行する
+	 * @param c_name 編集後の顧客名のString
+	 * @param c_id 編集対象の顧客IDのString
+	 */
 	public int editClient(String c_name, String c_id) {
 		// 編集した件数
 		int result = 0;
