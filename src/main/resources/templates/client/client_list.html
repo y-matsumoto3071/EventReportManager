@@ -41,16 +41,13 @@
 					</tr>
 				</thead>
 				<tbody>
-
-					<!-- ★th:ifを使って論理削除された面談は一覧に表示させない -->
-					<tr th:each="item:${client_list}" th:if="${item.deleteflg != 0}">
-
+					<tr th:each="item:${client_list}">
 						<th scope="row"><input type="checkbox" name="selectCheck"
 							th:value="${item.client_id}"></th>
 						<td th:text="${item.client_id}"></td>
 						<td class="position-relative"><a
 							href="javascript:forms.submit()"
-							th:href="@{/client/edit/{client_id}(client_id=${item.client_id})}"
+							th:href="@{/client/edit?id={client_id}(client_id=${item.client_id})}"
 							class="stretched-link" th:text="${item.client_name}"> </a></td>
 					</tr>
 

@@ -52,7 +52,7 @@ public class ClientController {
 		// 画面遷移先を顧客情報一覧画面に指定
 		String res = "client/client_list";
 
-		List<Map<String, Object>> list = clientService.searchAll();
+		List<Map<String, Object>> list = clientService.searchActive();
 		model.addAttribute("client_list", list);
 
 		//編集に使ったセッションを削除
@@ -67,7 +67,7 @@ public class ClientController {
 	 * 以下の時はエラーを発出
 	 * ・パスワード未入力
 	 * ・チェックボックス未選択
-	 * ・パスワードご入力
+	 * ・パスワード誤入力
 	 */
 	@PostMapping("/list")
 	public String deleteClient(@RequestParam(name = "selectCheck", required = false) String[] c_id,
@@ -130,39 +130,41 @@ public class ClientController {
 			Model model,
 			RedirectAttributes attr) {
 
-		//顧客名が重複していると発生するDB例外のための例外処理
-		try {
+		// 画面遷移先を顧客情報一覧画面へのリダイレクトに指定
+		String res = "redirect:/client/list";
+
+		// エラーメッセージを格納する変数をインスタンス化
+		String attributeValue = new String();
+
+			// 未入力チェック
 			if (c_name.equals("")) {
-				attr.addFlashAttribute("Result", "名前を入力してください。");
-				return "redirect:/client/edit";
+				attributeValue = "名前を入力してください。";
+				res = "redirect:/client/edit";
+
+			// 未入力以外
+			} else {
+				// 編集時はUPDATE、新規登録時はINSERTを実行
+				attributeValue = clientService.registJudge(c_name, c_id);
+				//編集時のみ
+				if (!(c_id.equals(""))) {
+					//編集に使ったセッションを削除
+					session.removeAttribute("c_id");
+
+				}
+				// 社名が重複している場合はリダイレクト先を編集画面へ指定
+				if (attributeValue.equals("社名が重複しています。")) {
+					res = "redirect:/client/edit";
+				}
 			}
 
-			//編集分岐点
-			if (!(c_id.equals(""))) {
-				clientService.editClient(c_name, c_id);
-				attr.addFlashAttribute("Result", "編集が完了しました。");
-
-				//編集に使ったセッションを削除
-				session.removeAttribute("c_id");
-				return "redirect:/client/list";
-			}
-
-			//面談報告書1件登録
-			clientService.registClient(c_name);
-
-			//フラッシュスコープに完了メッセージを設定
-			attr.addFlashAttribute("Result", "登録が完了しました。");
-		} catch (Exception e) {
-			attr.addFlashAttribute("Result", "社名が重複しています。");
-			return "redirect:/client/edit";
-		}
-		return "redirect:/client/list";
+		attr.addFlashAttribute("Result", attributeValue);
+		return res;
 	}
 
 	/**
 	 * CE-010-010 顧客編集画面遷移
 	 */
-	@GetMapping("/edit/{client_id}")
+	@GetMapping("/edit?id={client_id}")
 	public String editClient(@PathVariable("client_id") Integer c_id,
 			Model model) {
 

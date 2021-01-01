@@ -40,6 +40,23 @@ public class ClientDao {
 	}
 
 	/**
+	 * 顧客情報の削除フラグ=0以外を抽出してListで返すSQLを実行する
+	 * @param なし
+	 * @return list 削除フラグ=0以外の顧客情報抽出結果のList
+	 */
+	public List<Map<String, Object>> searchActive() {
+
+		// SQL文作成
+		String sql = "SELECT * from client WHERE deleteflg != 0";
+
+		// クエリを実行
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+
+		// 取得したリストを返す
+		return list;
+	}
+
+	/**
 	 * 指定された顧客情報を論理削除するSQLを実行する
 	 * @param c_id 削除対象の顧客IDのString配列
 	 * @return 削除件数
