@@ -80,8 +80,7 @@ public class ClientController {
 		// エラーメッセージを格納する変数をインスタンス化
 		String attributeValue = new String();
 
-		List<Map<String, Object>> list = passwordService.searchPassword();
-		String active_pw = list.get(0).get("password_body").toString();
+		String active_pw = passwordService.getPassword(1);
 
 		// パスワードが未入力の場合
 		if (adminPW.equals("")) {
