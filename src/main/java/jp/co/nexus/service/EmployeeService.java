@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import jp.co.nexus.repository.EmployeeDao;
@@ -26,6 +27,47 @@ public class EmployeeService{
 
 	@Autowired
 	EmployeeDao employeeDao;
+
+	/**
+	 * 社員情報を新規登録、または指定された登録済み社員情報を編集する。
+	 * @param e_name 新規登録／編集画面で入力された社員名のString
+	 * @param e_category 新規登録／編集画面で指定されたカテゴリのString
+	 * @param e_id 編集対象の社員IDのString（新規登録時は空文字）
+	 * @return attributeValue エラーメッセージ
+	 */
+	public String registJudge(String e_name, String e_category, String e_id) {
+
+		// エラーメッセージを格納する変数をインスタンス化
+		String attributeValue = new String();
+
+		//社員名が重複していると発生するExceptionのための例外処理
+		try {
+			//編集時
+			if (!(e_id.equals(""))) {
+				//顧客情報UPDATE
+				employeeDao.editEmployee(e_name, e_category, e_id);
+
+				//フラッシュスコープに完了メッセージを設定
+				attributeValue = "編集が完了しました。";
+
+			// 新規登録時
+			} else {
+				//社員情報INSERT
+				employeeDao.registEmployee(e_name,e_category);
+
+				//フラッシュスコープに完了メッセージを設定
+				attributeValue = "登録が完了しました。";
+
+			}
+
+		// 顧客名が重複している場合の例外処理
+		} catch (DuplicateKeyException e) {
+			attributeValue = "社員名が重複しています。";
+		}
+
+		return attributeValue;
+
+	}
 
 	/**
 	 * 社員情報を全件取得してListで返す。

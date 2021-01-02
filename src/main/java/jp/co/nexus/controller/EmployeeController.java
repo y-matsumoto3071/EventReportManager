@@ -52,7 +52,10 @@ public class EmployeeController {
 	@GetMapping("/list")
 	public String employeeList(Model model) {
 
-		List<Map<String, Object>> list = employeeService.searchAll();
+		// 画面遷移先を社員情報一覧画面に指定
+		String res = "employee/employee_list";
+
+		List<Map<String, Object>> list = employeeService.searchActive();
 
 		/*
 		 * ★listの各employe_categoryを表示用の文字列に変換する
@@ -68,7 +71,7 @@ public class EmployeeController {
 		//編集に使ったセッションを削除
 		session.removeAttribute("e_id");
 
-		return "employee/employee_list";
+		return res;
 	}
 
 	/**
@@ -84,26 +87,37 @@ public class EmployeeController {
 			@RequestParam(name = "adminPW", defaultValue = "") String adminPW,
 			RedirectAttributes attr) {
 
-		List<Map<String, Object>> list = passwordService.searchPassword();
-		String active_pw = list.get(0).get("password_body").toString();
+		// 画面遷移先を社員情報一覧画面へのリダイレクトに指定
+		String res = "redirect:/employee/list";
 
+		// エラーメッセージを格納する変数をインスタンス化
+		String attributeValue = new String();
+
+		String active_pw = passwordService.getPassword(1);
+
+		// パスワードが未入力の場合
 		if (adminPW.equals("")) {
-			attr.addFlashAttribute("Result", "パスワードを入力してください。");
-			return "redirect:/employee/list";
+			attributeValue = "パスワードを入力してください。";
+
+		// 削除対象が選択されていない場合
 		} else if(e_id == null){
-			attr.addFlashAttribute("Result", "削除する社員を選択してください。");
-			return "redirect:/employee/list";
+			attributeValue = "削除する社員を選択してください。";
+
+		// 正規入力されている場合
 		} else if (adminPW.equals(active_pw)) {
 			//★論理削除を実行
 			int result = employeeService.deleteEmployee(e_id);
-			attr.addFlashAttribute("Result", result + "件削除しました。");
+			attributeValue = result + "件削除しました。";
+
+		// 上記条件に合致しない場合、パスワード誤入力と判定
 		} else {
-			attr.addFlashAttribute("Result", "パスワードが間違っています。");
-			return "redirect:/employee/list";
+			attributeValue = "パスワードが間違っています。";
+
 		}
 
-		//社員一覧画面に遷移
-		return "redirect:/employee/list";
+		attr.addFlashAttribute("Result", attributeValue);
+
+		return res;
 	}
 
 	/**
@@ -111,7 +125,10 @@ public class EmployeeController {
 	 */
 	@GetMapping("/edit")
 	public String employeeEdit() {
-		return "employee/employee_edit";
+		// 画面遷移先を社員情報一覧画面に指定
+		String res = "employee/employee_edit";
+
+		return res;
 	}
 
 	/**
@@ -126,46 +143,45 @@ public class EmployeeController {
 			Model model,
 			RedirectAttributes attr) {
 
-		//社員名が重複していると発生するExceptionのための例外処理
-		try {
-			if (e_name.equals("")) {
-				attr.addFlashAttribute("Result", "名前を入力してください。");
-				return "redirect:/employee/edit";
-			}
+		// 画面遷移先を社員情報一覧画面に指定
+		String res = "redirect:/employee/list";
 
-			String e_category = e_group + e_team;
+		// エラーメッセージを格納する変数をインスタンス化
+		String attributeValue = new String();
 
-			//★カテゴリ組み合わせチェック
-			int check = ecm.categoryCheck(e_category);
-			if(check==1) {
-				attr.addFlashAttribute("Result", "適切な組み合わせを選んでください。<br>CCG : 〇〇エリア、SCG : 〇〇チーム");
-				return "redirect:/employee/edit";
-			}
+		String e_category = e_group + e_team;
 
-			//編集分岐点
+		//カテゴリ組み合わせチェック用
+		int check = ecm.categoryCheck(e_category);
+
+		// 未入力チェック
+		if (e_name.equals("")) {
+			attributeValue = "名前を入力してください。";
+			res = "redirect:/employee/edit";
+
+		//★カテゴリ組み合わせチェック
+		} else if(check==1) {
+			attributeValue = "適切な組み合わせを選んでください。<br>CCG : 〇〇エリア、SCG : 〇〇チーム";
+			res = "redirect:/employee/edit";
+
+		// 正規入力
+		} else {
+			// 編集時はUPDATE、新規登録時はINSERTを実行
+			attributeValue = employeeService.registJudge(e_name, e_category, e_id);
+
 			if (!(e_id.equals(""))) {
-				employeeService.editEmployee(e_name, e_category, e_id);
-				attr.addFlashAttribute("Result", "編集が完了しました。");
-
 				//編集に使ったセッションを削除
 				session.removeAttribute("e_id");
-				return "redirect:/employee/list";
+
 			}
-
-			//社員1件登録
-			employeeService.registEmployee(e_name,e_category);
-
-			//フラッシュスコープに完了メッセージを設定
-			attr.addFlashAttribute("Result", "登録が完了しました。");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			attr.addFlashAttribute("Result", "社員名が重複しています。");
-			return "redirect:/employee/edit";
-
+			// 社員名が重複している場合はリダイレクト先を編集画面へ指定
+			if (attributeValue.equals("社員名が重複しています。")) {
+				res = "redirect:/employee/edit";
+			}
 		}
-		return "redirect:/employee/list";
+
+		attr.addFlashAttribute("Result", attributeValue);
+		return res;
 	}
 
 	/**
@@ -175,6 +191,9 @@ public class EmployeeController {
 	@GetMapping("/edit{employee_id}")
 	public String editEmployee(@PathVariable("employee_id") Integer e_id,
 			Model model) {
+
+		// 画面遷移先を社員情報一覧画面に指定
+		String res = "employee/employee_edit";
 
 		//選択された社員の情報を検索
 		Map<String, Object> emp = employeeService.searchEmployee(e_id);
@@ -189,7 +208,7 @@ public class EmployeeController {
 		//編集に利用
 		session.setAttribute("e_id", e_id);
 
-		return "employee/employee_edit";
+		return res;
 	}
 
 }
