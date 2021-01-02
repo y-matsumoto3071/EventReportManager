@@ -23,9 +23,9 @@ public class ClientDao {
 	JdbcTemplate jdbcTemplate;
 
 	/**
-	 * 顧客情報を全検索してListで返すSQLを実行する
+	 * 顧客情報を全件取得してListで返すSQLを実行する
 	 * @param なし
-	 * @return list 全検索結果のList
+	 * @return list 全件取得結果のList
 	 */
 	public List<Map<String, Object>> searchAll() {
 
@@ -59,7 +59,7 @@ public class ClientDao {
 	/**
 	 * 指定された顧客情報を論理削除するSQLを実行する
 	 * @param c_id 削除対象の顧客IDのString配列
-	 * @return 削除件数
+	 * @return result 削除件数
 	 */
 	public int deleteClient(String[] c_id) {
 		// 削除した件数
@@ -125,9 +125,9 @@ public class ClientDao {
 	}
 
 	/**
-	 * 顧客情報を新規登録するSQLを実行する。
-	 * @param c_name 登録する顧客名のString
-	 * @return 登録件数
+	 * 顧客情報をINSERTするSQLを実行する。
+	 * @param c_name INSERTする顧客名のString
+	 * @return INSERT件数
 	 */
 	public int registClient(String c_name) {
 
@@ -148,9 +148,9 @@ public class ClientDao {
 	}
 
 	/**
-	 * 登録された顧客情報を編集するSQLを実行する
-	 * @param c_name 編集後の顧客名のString
-	 * @param c_id 編集対象の顧客IDのString
+	 * 登録された顧客情報をUPDATEするSQLを実行する
+	 * @param c_name UPDATE後の顧客名のString
+	 * @param c_id UPDATE対象の顧客IDのString
 	 */
 	public int editClient(String c_name, String c_id) {
 		// 編集した件数

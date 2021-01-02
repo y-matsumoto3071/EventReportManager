@@ -71,10 +71,11 @@ public class ClientService{
 		return attributeValue;
 
 	}
+
 	/**
-	 * 顧客情報を全抽出してListで返す。
+	 * 顧客情報を全件取得してListで返す。
 	 * @param なし
-	 * @return list 顧客情報全抽出結果のList
+	 * @return list 顧客情報全件取得結果のList
 	 */
 	public List<Map<String, Object>> searchAll() {
 		List<Map<String, Object>> list = clientDao.searchAll();
@@ -121,7 +122,7 @@ public class ClientService{
     }
 
 	/**
-	 * 指定された顧客情報を返す。
+	 * 顧客IDで指定された顧客情報を返す。
 	 * @param clientId 抽出対象の顧客IDのInteger
 	 * @return clt 抽出結果のMap
 	 */
