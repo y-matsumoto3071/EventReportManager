@@ -3,24 +3,22 @@ package jp.co.nexus;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import jp.co.nexus.repository.PasswordDao;
+import jp.co.nexus.service.PasswordService;
 
 @SpringBootTest
 class EventReportManagerApplicationTests {
 
 	@Autowired
-	PasswordDao passwordDao;
+	PasswordService passwordService;
 
 	@Test
 	void getPasswordTest() {
-		Map<String, Object> map = passwordDao.getPassword(1);
-		assertThat(map.get("password_body").toString(), is("123456"));
+		String active_pw = passwordService.getPassword(1);
+		assertThat(active_pw, is("123456"));
 	}
 
 }
