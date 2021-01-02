@@ -50,7 +50,7 @@
 						<td th:text="${item.employee_id}"></td>
 						<td class="position-relative"><a
 							href="javascript:forms.submit()"
-							th:href="@{/employee/edit{employee_id}(employee_id=${item.employee_id})}"
+							th:href="@{/employee/edit?id={employee_id}(employee_id=${item.employee_id})}"
 							class="stretched-link" th:text="${item.employee_name}"> </a></td>
 
 						<!-- ★substringBefore/Afterを利用し、区切り文字の前後を表示 -->

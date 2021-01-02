@@ -188,7 +188,7 @@ public class EmployeeController {
 	 * EE-010-020_社員編集画面遷移
 	 * @param e_id 編集対象の社員ID
 	 */
-	@GetMapping("/edit{employee_id}")
+	@GetMapping("/edit?id={employee_id}")
 	public String editEmployee(@PathVariable("employee_id") Integer e_id,
 			Model model) {
 
