@@ -135,26 +135,26 @@ public class ClientController {
 		// エラーメッセージを格納する変数をインスタンス化
 		String attributeValue = new String();
 
-			// 未入力チェック
-			if (c_name.equals("")) {
-				attributeValue = "名前を入力してください。";
-				res = "redirect:/client/edit";
+		// 未入力チェック
+		if (c_name.equals("")) {
+			attributeValue = "名前を入力してください。";
+			res = "redirect:/client/edit";
 
-			// 未入力以外
-			} else {
-				// 編集時はUPDATE、新規登録時はINSERTを実行
-				attributeValue = clientService.registJudge(c_name, c_id);
-				//編集時のみ
-				if (!(c_id.equals(""))) {
-					//編集に使ったセッションを削除
-					session.removeAttribute("c_id");
+		// 未入力以外
+		} else {
+			// 編集時はUPDATE、新規登録時はINSERTを実行
+			attributeValue = clientService.registJudge(c_name, c_id);
+			//編集時のみ
+			if (!(c_id.equals(""))) {
+				//編集に使ったセッションを削除
+				session.removeAttribute("c_id");
 
-				}
-				// 社名が重複している場合はリダイレクト先を編集画面へ指定
-				if (attributeValue.equals("社名が重複しています。")) {
-					res = "redirect:/client/edit";
-				}
 			}
+			// 社名が重複している場合はリダイレクト先を編集画面へ指定
+			if (attributeValue.equals("社名が重複しています。")) {
+				res = "redirect:/client/edit";
+			}
+		}
 
 		attr.addFlashAttribute("Result", attributeValue);
 		return res;
