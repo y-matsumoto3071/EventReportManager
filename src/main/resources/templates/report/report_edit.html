@@ -35,12 +35,12 @@
         </div>
         <div class="col-md-6  form-inline">
           <label class="col-form-label" for="createEmployee">氏名</label>
-          <input class="ml-3 form-control" type="text" id="createEmployee">
+          <input class="ml-3 form-control" type="text" id="createEmployee" value="根草須太郎" readonly>
         </div>
       </div>
       <h5 class="mt-3">顧客</h5>
       <label class="ml-2" for="clientName">社名</label>
-      <input type="text" id="clientName" class="form-control">
+      <input type="text" id="clientName" class="form-control" value="XX株式会社" readonly>
       <label class="ml-2" for="contactName">担当者（敬称略）</label>
       <input type="text" id="contactName" class="form-control">
       <p class="mt-3">
@@ -59,12 +59,11 @@
       <textarea id="eventFeedbackByCCG" class="form-control"></textarea>
       <div class="row">
         <p class="mt-5 ml-3">
+          <button type="button" class="btn btn-outline-primary">確認</button>
+          <!-- ★編集時には「戻る」ボタンを表示させない -->
           <button type="button" class="btn btn-outline-primary"
-            onclick="location.href='report_confirm.html'">確認</button>
-          <button type="button" class="btn btn-outline-primary"
-            onclick="location.href='report_create.html'">戻る</button>
-          <button type="button" class="btn btn-outline-primary"
-            onclick="location.href='report_list.html'">キャンセル</button>
+            onclick="location.href='javascript:history.back();'">戻る</button>
+          <button type="button" class="btn btn-outline-primary">キャンセル</button>
         </p>
       </div>
   </form>
