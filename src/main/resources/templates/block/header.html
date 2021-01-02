@@ -3,7 +3,7 @@
 
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-      <a class="navbar-brand text-white" href="#" th:href="@{/report/list}">ERM</a>
+      <a class="navbar-brand text-white" th:href="@{/report/list}">ERM</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -11,13 +11,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item active">
-            <a class="nav-link text-white" href="#" th:href="@{/report/list}">面談報告書一覧 <span class="sr-only">(current)</span></a>
+            <a class="nav-link text-white" th:href="@{/report/list}">面談報告書一覧 <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#" th:href="@{/client/list}">顧客マスタ</a>
+            <a class="nav-link text-white" th:href="@{/client/list}">顧客情報一覧</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="#" th:href="@{/employee/list}">社員マスタ</a>
+            <a class="nav-link text-white" th:href="@{/employee/list}">社員情報一覧</a>
           </li>
         </ul>
       </div>
