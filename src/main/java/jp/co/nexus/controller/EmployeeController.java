@@ -23,10 +23,13 @@ import jp.co.nexus.service.EmployeeService;
 import jp.co.nexus.service.PasswordService;
 
 /**
- * @author Yuki Matsumoto
+ * EmployeeController.java
+ * 社員情報管理機能に関するアプリケーション制御を行うクラス
+ *
+ * @author 本間 洋平
+ * @version 21/01/02 コメントの追加　担当者：松本雄樹
  *
  */
-
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -42,6 +45,10 @@ public class EmployeeController {
 
 	EmployeeCategoryModel ecm = new EmployeeCategoryModel();
 
+	/**
+	 * EL-010-010 社員一覧画面遷移
+	 * 社員情報一覧画面に遷移する
+	 */
 	@GetMapping("/list")
 	public String employeeList(Model model) {
 
@@ -64,7 +71,8 @@ public class EmployeeController {
 		return "employee/employee_list";
 	}
 
-	/*
+	/**
+	 * ED-010-010 社員削除処理
 	 * ★論理削除時に実行
 	 * 以下の時はエラーを発出
 	 * ・パスワード未入力
@@ -98,12 +106,18 @@ public class EmployeeController {
 		return "redirect:/employee/list";
 	}
 
+	/**
+	 * EE-010-010 社員新規登録画面遷移
+	 */
 	@GetMapping("/edit")
 	public String employeeEdit() {
 		return "employee/employee_edit";
 	}
 
-	//登録・編集時に実行する
+	/**
+	 * EC-010-020 社員新規登録内容DB登録
+	 * EE-010-020 社員情報編集内容DB登録
+	 */
 	@PostMapping("/edit")
 	public String createEmployee(@RequestParam(name="e_name", defaultValue = "") String e_name,
 			@RequestParam(name="e_group", defaultValue = "") String e_group,
@@ -154,7 +168,10 @@ public class EmployeeController {
 		return "redirect:/employee/list";
 	}
 
-	//一覧から社員名を選択したときに実行する（編集）
+	/**
+	 * EE-010-020_社員編集画面遷移
+	 * @param e_id 編集対象の社員ID
+	 */
 	@GetMapping("/edit{employee_id}")
 	public String editEmployee(@PathVariable("employee_id") Integer e_id,
 			Model model) {
