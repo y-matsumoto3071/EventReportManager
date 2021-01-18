@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +26,7 @@ import jp.co.nexus.service.PasswordService;
  *
  * @author 本間 洋平
  * @version 21/01/01 コメントの追加　担当者：松本雄樹
+ * @version 21/01/18 バグ修正(CE-010-010 顧客編集画面遷移)　担当者：松本雄樹
  *
  */
 @Controller
@@ -109,12 +109,26 @@ public class ClientController {
 
 	/**
 	 * CC-010-010 顧客情報登録画面遷移
+	 * CE-010-010 顧客編集画面遷移
 	 */
 	@GetMapping("/edit")
-	public String create() {
+	public String editClient(@RequestParam(name = "id", defaultValue = "") Integer c_id,
+			Model model) {
 
 		// 画面遷移先を顧客情報登録画面に指定
 		String res = "client/client_edit";
+
+		// 既存社員情報の編集時判定
+		if (c_id != null) {
+			//選択された顧客情報を抽出
+			Map<String, Object> clt = clientService.searchClient(c_id);
+
+			//編集画面に顧客名を表示
+			model.addAttribute("client_name", clt.get("client_name"));
+
+			//編集に利用する社員IDをセッションに保存
+			session.setAttribute("c_id", c_id);
+		}
 
 		return res;
 	}
@@ -158,24 +172,6 @@ public class ClientController {
 
 		attr.addFlashAttribute("Result", attributeValue);
 		return res;
-	}
-
-	/**
-	 * CE-010-010 顧客編集画面遷移
-	 */
-	@GetMapping("/edit?id={client_id}")
-	public String editClient(@PathVariable("client_id") Integer c_id,
-			Model model) {
-
-		Map<String, Object> clt = clientService.searchClient(c_id);
-
-		//編集画面に顧客名を表示
-		model.addAttribute("client_name", clt.get("client_name"));
-
-		//編集に利用
-		session.setAttribute("c_id", c_id);
-
-		return "client/client_edit";
 	}
 
 }
