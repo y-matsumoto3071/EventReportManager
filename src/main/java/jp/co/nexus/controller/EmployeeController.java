@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +27,7 @@ import jp.co.nexus.service.PasswordService;
  *
  * @author 本間 洋平
  * @version 21/01/02 コメントの追加　担当者：松本雄樹
+ * @version 21/01/18 バグ修正（EE-010-020_社員編集画面遷移）　担当者：松本雄樹
  *
  */
 @Controller
@@ -122,12 +122,31 @@ public class EmployeeController {
 
 	/**
 	 * EE-010-010 社員新規登録画面遷移
+	 * EE-010-020_社員編集画面遷移
+	 * @param e_id 編集対象の社員ID
 	 */
 	@GetMapping("/edit")
-	public String employeeEdit() {
+	public String employeeEdit(@RequestParam(name="id", defaultValue = "") Integer e_id,
+			Model model) {
+
 		// 画面遷移先を社員情報一覧画面に指定
 		String res = "employee/employee_edit";
 
+		// 既存社員情報の編集時判定
+		if (e_id != null) {
+			//選択された社員の情報を検索
+			Map<String, Object> emp = employeeService.searchEmployee(e_id);
+
+			//編集画面に社員名を表示
+			model.addAttribute("employee_name", emp.get("employee_name"));
+
+			//社員の所属をスコープに保存
+			String ec = emp.get("employee_category").toString();
+			model.addAttribute("employee_category", ec);
+
+			//編集に利用する社員IDをセッションに保存
+			session.setAttribute("e_id", e_id);
+		}
 		return res;
 	}
 
@@ -181,33 +200,6 @@ public class EmployeeController {
 		}
 
 		attr.addFlashAttribute("Result", attributeValue);
-		return res;
-	}
-
-	/**
-	 * EE-010-020_社員編集画面遷移
-	 * @param e_id 編集対象の社員ID
-	 */
-	@GetMapping("/edit?id={employee_id}")
-	public String editEmployee(@PathVariable("employee_id") Integer e_id,
-			Model model) {
-
-		// 画面遷移先を社員情報一覧画面に指定
-		String res = "employee/employee_edit";
-
-		//選択された社員の情報を検索
-		Map<String, Object> emp = employeeService.searchEmployee(e_id);
-
-		//編集画面に社員名を表示
-		model.addAttribute("employee_name", emp.get("employee_name"));
-
-		//社員の所属をスコープに保存
-		String ec = emp.get("employee_category").toString();
-		model.addAttribute("employee_category", ec);
-
-		//編集に利用
-		session.setAttribute("e_id", e_id);
-
 		return res;
 	}
 
