@@ -21,24 +21,27 @@
 		<!--ヘッダー部分は、Thymeleafで共通化すること-->
 	</header>
 
-	<div class="container bg-white py-3 my-3">
+	<div class="container bg-white shadow-sm border mx-auto py-3 my-3" style="max-width: 45em;">
 	<!-- 各注意文を表示する-->
 	<div class="text-danger" th:text="${Result}"></div>
 
 	<form method="post" action="/client/edit">
-			<label for="clientName">顧客社名</label> <input type="text"
-				id="clientName" class="form-control" name="c_Name"
+		<div class="input-group-sm m-3">
+			<label style="line-height:0rem;" class="small font-weight-bold" for="clientName">
+				顧客社名</label>
+			<input type="text" id="clientName" class="form-control" name="c_Name"
 				th:value="${client_name}">
 			<!-- id仕込み -->
 			<input type="hidden" name="client_id" th:value="${session.c_id}">
-			<p class="mt-5">
-				<button type="submit" class="btn btn-outline-primary"
-					th:if="${session.c_id == null}">登録</button>
-				<button type="submit" class="btn btn-outline-primary"
-					th:if="${session.c_id != null}">編集</button>
-				<button type="button" class="btn btn-outline-primary"
-					onclick="location.href='/client/list'">キャンセル</button>
-			</p>
+		</div>
+		<div class="m-3">
+			<button type="submit" class="btn btn-outline-primary"
+				th:if="${session.c_id == null}">登録</button>
+			<button type="submit" class="btn btn-outline-primary"
+				th:if="${session.c_id != null}">編集</button>
+			<button type="button" class="btn btn-outline-primary"
+				onclick="location.href='/client/list'">キャンセル</button>
+		</div>
 
 	</form>
 	</div>

@@ -21,22 +21,22 @@
 		<!--ヘッダー部分は、Thymeleafで共通化すること-->
 	</header>
 
-	<div class="container bg-white py-3 my-3">
+	<div class="container bg-white shadow-sm border mx-auto py-3 my-3" style="max-width: 45em;">
 	<!-- 各注意文を表示する-->
 	<div class="text-danger" th:text="${Result}"></div>
 
 	<form method="post" action="/client/list" name="forms">
 
-			<p class="mt-3 mb-3">
+			<p>
 				<button type="button" class="btn btn-outline-primary"
 					onclick="location.href='/client/edit'">顧客新規登録</button>
 			</p>
-			<table class="mt-3 table table-sm table-striped">
+			<table class="my-5 table table-sm table-striped table-bordered">
 				<thead>
-					<tr>
+					<tr class="table-primary">
 						<th scope="col"><input type="checkbox" disabled='disabled'
 							checked='checked'></th>
-						<th scope="col">顧客ID</th>
+						<th scope="col">#</th>
 						<th scope="col">顧客社名</th>
 					</tr>
 				</thead>
