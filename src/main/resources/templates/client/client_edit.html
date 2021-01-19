@@ -15,18 +15,17 @@
 
 <body class="bg-light">
 
-	<header>
-		<!--ヘッダー部分は、Thymeleafで共通化すること-->
-		<div th:replace="~{block/header::header}"></div>
-		<!--ヘッダー部分は、Thymeleafで共通化すること-->
-	</header>
+<header><div th:replace="~{block/header::header}"></div></header>
 
-	<div class="container bg-white shadow-sm border mx-auto py-3 my-3" style="max-width: 45em;">
+<div class="container bg-white shadow-sm border mx-auto py-3 my-3" style="max-width: 45em;">
+	<div class="m-3">
+	<h1>顧客情報登録</h1>
+
 	<!-- 各注意文を表示する-->
 	<div class="text-danger" th:text="${Result}"></div>
 
 	<form method="post" action="/client/edit">
-		<div class="input-group-sm m-3">
+		<div class="input-group-sm">
 			<label style="line-height:0rem;" class="small font-weight-bold" for="clientName">
 				顧客社名</label>
 			<input type="text" id="clientName" class="form-control" name="c_Name"
@@ -34,24 +33,20 @@
 			<!-- id仕込み -->
 			<input type="hidden" name="client_id" th:value="${session.c_id}">
 		</div>
-		<div class="m-3">
+		<div class="my-3">
 			<button type="submit" class="btn btn-outline-primary"
 				th:if="${session.c_id == null}">登録</button>
-			<button type="submit" class="btn btn-outline-primary"
+			<button type="submit" class="btn btn-outline-primary ml-1"
 				th:if="${session.c_id != null}">編集</button>
-			<button type="button" class="btn btn-outline-primary"
+			<button type="button" class="btn btn-outline-primary ml-1"
 				onclick="location.href='/client/list'">キャンセル</button>
 		</div>
 
 	</form>
 	</div>
 
-	<footer>
-		<!--フッター部分は、Thymeleafで共通化すること-->
-		<div class="bg-dark text-white text-center p-3">Copyright ©
-			Nexus corporation. All Rights Reserved.</div>
-		<!--フッター部分は、Thymeleafで共通化すること-->
-	</footer>
+</div>
+<footer><div th:replace="~{block/footer::footer}"></div></footer>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
