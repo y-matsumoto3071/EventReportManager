@@ -14,69 +14,59 @@
 </head>
 
 <body class="bg-light">
-
-	<header>
-		<!--ヘッダー部分は、Thymeleafで共通化すること-->
-		<div th:replace="~{block/header::header}"></div>
-		<!--ヘッダー部分は、Thymeleafで共通化すること-->
-	</header>
-	<div class="container bg-white py-3 my-3">
+<header><div th:replace="~{block/header::header}"></div></header>
+<div class="container bg-white shadow-sm border mx-auto py-5 my-3" style="max-width: 45em;">
 
 	<!-- 各注意文を表示する-->
 	<div class="text-danger" th:text="${Result}"></div>
 
 	<form method="post" action="/employee/list" name="forms">
 
-			<p class="mt-3 mb-3">
-				<button type="button" class="btn btn-outline-primary"
-					onclick="location.href='/employee/edit'">社員新規登録</button>
-			</p>
-			<table class="mt-3 table table-sm table-striped">
-				<thead>
-					<tr>
-						<th scope="col"><input type="checkbox" disabled='disabled'
-							checked='checked'></th>
-						<th scope="col">社員ID</th>
-						<th scope="col">社員名</th>
-						<th scope="col">所属グループ</th>
-						<th scope="col">所属チーム</th>
-					</tr>
-				</thead>
+		<p>
+			<button type="button" class="btn btn-outline-primary"
+				onclick="location.href='/employee/edit'">社員新規登録</button>
+		</p>
+		<table class="my-5 table table-sm table-striped table-bordered">
+			<thead>
+				<tr class="table-primary">
+					<th scope="col"><input type="checkbox" disabled='disabled'
+						checked='checked'></th>
+					<th scope="col">#</th>
+					<th scope="col">社員名</th>
+					<th scope="col">所属グループ</th>
+					<th scope="col">所属チーム</th>
+				</tr>
+			</thead>
 
-				<tbody>
-					<tr th:each="item:${employee_list}">
-						<th scope="row"><input type="checkbox" name="selectCheck"
-							th:value="${item.employee_id}"></th>
-						<td th:text="${item.employee_id}"></td>
-						<td class="position-relative"><a
-							href="javascript:forms.submit()"
-							th:href="@{/employee/edit?id={employee_id}(employee_id=${item.employee_id})}"
-							class="stretched-link" th:text="${item.employee_name}"> </a></td>
+			<tbody>
+				<tr th:each="item:${employee_list}">
+					<th scope="row"><input type="checkbox" name="selectCheck"
+						th:value="${item.employee_id}"></th>
+					<td th:text="${item.employee_id}"></td>
+					<td class="position-relative"><a
+						href="javascript:forms.submit()"
+						th:href="@{/employee/edit?id={employee_id}(employee_id=${item.employee_id})}"
+						class="stretched-link" th:text="${item.employee_name}"> </a></td>
 
-						<!-- ★substringBefore/Afterを利用し、区切り文字の前後を表示 -->
-						<td th:text="${#strings.substringBefore(item.employee_category,',')}"></td>
-						<td th:text="${#strings.substringAfter(item.employee_category,',')}"></td>
+					<!-- ★substringBefore/Afterを利用し、区切り文字の前後を表示 -->
+					<td th:text="${#strings.substringBefore(item.employee_category,',')}"></td>
+					<td th:text="${#strings.substringAfter(item.employee_category,',')}"></td>
 
-					</tr>
-				</tbody>
+				</tr>
+			</tbody>
 
-			</table>
-			<div class="mt-5 row">
-				<div class="col form-inline">
-					<label class="col-form-label" for="adminPW">管理者PW</label> <input
-						class="ml-3 form-control" type="password" id="adminPW" name="adminPW">
-					<button type="submit" class="btn btn-outline-primary ml-3">選択した社員を削除（管理者のみ）</button>
-				</div>
+		</table>
+		<div class="mt-5 row">
+			<div class="col form-inline">
+				<label class="col-form-label" for="adminPW">管理者PW</label>
+				<input class="ml-3 form-control" type="password" id="adminPW" name="adminPW">
+				<button type="submit" class="btn btn-outline-primary ml-3">選択した社員を削除（管理者のみ）</button>
 			</div>
+		</div>
 	</form>
 	</div>
 
-	<footer>
-		<!--フッター部分は、Thymeleafで共通化すること-->
-		<div class="bg-dark text-white text-center p-3">Copyright ©
-			Nexus corporation. All Rights Reserved.</div>
-		<!--フッター部分は、Thymeleafで共通化すること-->
-	</footer>
+<footer><div th:replace="~{block/footer::footer}"></div></footer>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
