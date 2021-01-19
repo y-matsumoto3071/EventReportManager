@@ -14,14 +14,9 @@
 </head>
 
 <body class="bg-light">
+<header><div th:replace="~{block/header::header}"></div></header>
 
-	<header>
-		<!--ヘッダー部分は、Thymeleafで共通化すること-->
-		<div th:replace="~{block/header::header}"></div>
-		<!--ヘッダー部分は、Thymeleafで共通化すること-->
-	</header>
-
-	<div class="container bg-white shadow-sm border mx-auto py-3 my-3" style="max-width: 45em;">
+	<div class="container bg-white shadow-sm border mx-auto py-5 my-3" style="max-width: 45em;">
 	<!-- 各注意文を表示する-->
 	<div class="text-danger" th:text="${Result}"></div>
 
@@ -62,12 +57,8 @@
 			</div>
 	</form>
 	</div>
-	<footer>
-		<!--フッター部分は、Thymeleafで共通化すること-->
-		<div class="bg-dark text-white text-center p-3">Copyright ©
-			Nexus corporation. All Rights Reserved.</div>
-		<!--フッター部分は、Thymeleafで共通化すること-->
-	</footer>
+
+<footer><div th:replace="~{block/footer::footer}"></div></footer>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
