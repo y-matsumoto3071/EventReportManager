@@ -12,7 +12,7 @@
 </head>
 <body class="bg-light">
 <div th:replace="~{block/header::header}"></div>
-  <div class="container bg-white py-3 my-3">
+  <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <img src="../img/logo.png" alt="ERM" class="rounded mx-auto d-block">
     <p class="mt-3 mb-3">
       <button type="button" class="btn btn-outline-primary">新規作成</button>
@@ -47,9 +47,10 @@
         </div>
       </div>
     </form>
-    <table class="mt-3 table table-sm table-striped">
+    <div class="text-nowrap table-responsive mt-3">
+    <table class="table table-sm table-striped table-bordered text-center mt-3">
       <thead>
-        <tr>
+        <tr class="table-primary">
           <th scope="col"><input type="checkbox" disabled='disabled' checked='checked'></th>
           <th scope="col">顧客名</th>
           <th scope="col">面談日</th>
@@ -64,7 +65,11 @@
           <td class="position-relative"><a class="stretched-link">XX株式会社</a></td>
           <td>2020-02-27</td>
           <td>根草須太郎</td>
+          <!-- 案件概要は25文字まで表示可能とし、表示しきれない部分があれば"…"で省略表示すること -->
           <td>人事総務向けシステムの新規案件の設計、構築、テスト…</td>
+          <!-- 面談報告書.状態区分によって表示を分岐する
+               状態区分＝２（確認済）は"-(ハイフン)"、状態区分＝１（作成済）は鉛筆マーク
+               鉛筆マークの表示方法は下記モックアップsvgタグを参照 -->
           <td><a><svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16"
                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -78,12 +83,13 @@
           <td class="position-relative"><a class="stretched-link">XX株式会社</a></td>
           <td>2020-02-27</td>
           <td>根草須太郎</td>
+          <!-- 案件概要は25文字まで表示可能とし、表示しきれない部分があれば"…"で省略表示すること -->
           <td>人事総務向けシステムの新規案件の設計、構築、テスト…</td>
           <td><a> - </a></td>
         </tr>
       </tbody>
     </table>
-
+    </div>
   </div>
 <div th:replace="~{block/footer::footer}"></div>
 
