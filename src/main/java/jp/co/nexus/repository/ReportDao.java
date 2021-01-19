@@ -10,10 +10,13 @@ import org.springframework.stereotype.Repository;
 import jp.co.nexus.model.Report;
 
 /**
- * @author Yuki Matsumoto
+ * ReportDao.java
+ * 報告書管理機能で使用する報告書情報の登録・検索・編集・削除に関するSQLを
+ * 作成して実行するクラス
+ *
+ * @author 氏名を記載すること
  *
  */
-
 @Repository
 public class ReportDao {
 	private final JdbcTemplate jdbcTemplate;

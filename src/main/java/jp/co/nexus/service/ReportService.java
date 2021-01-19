@@ -10,10 +10,13 @@ import jp.co.nexus.model.Report;
 import jp.co.nexus.repository.ReportDao;
 
 /**
- * @author Yuki Matsumoto
+ * ReportService.java
+ * 報告書管理機能で使用する報告書情報の登録・検索・編集・削除に関する処理を
+ * ReportDaoクラスからReportControllerクラスに提供する
+ *
+ * @author 氏名を記載すること
  *
  */
-
 @Service
 public class ReportService {
 	private final ReportDao dao;
