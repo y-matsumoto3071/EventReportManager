@@ -39,4 +39,4 @@
    1. バグの隠蔽防止
 1. [その他](8_OTHER.MD)
 
-[戻る](../../README.MD)
+[README](../../README.md)
