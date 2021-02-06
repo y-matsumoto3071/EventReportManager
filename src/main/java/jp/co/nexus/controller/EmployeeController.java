@@ -165,6 +165,9 @@ public class EmployeeController {
 		// 画面遷移先を社員情報一覧画面に指定
 		String res = "redirect:/employee/list";
 
+		// 編集中かどうかを判定するフラグ
+		boolean isUpdating = !(e_id.equals(""));
+
 		// エラーメッセージを格納する変数をインスタンス化
 		String attributeValue = new String();
 
@@ -183,19 +186,25 @@ public class EmployeeController {
 			attributeValue = "適切な組み合わせを選んでください。<br>CCG : 〇〇エリア、SCG : 〇〇チーム";
 			res = "redirect:/employee/edit";
 
-		// 正規入力
+		// DB問い合わせ前のエラーチェック通過後の処理
 		} else {
 			// 編集時はUPDATE、新規登録時はINSERTを実行
 			attributeValue = employeeService.registJudge(e_name, e_category, e_id);
 
-			if (!(e_id.equals(""))) {
-				//編集に使ったセッションを削除
-				session.removeAttribute("e_id");
-
-			}
 			// 社員名が重複している場合はリダイレクト先を編集画面へ指定
 			if (attributeValue.equals("社員名が重複しています。")) {
-				res = "redirect:/employee/edit";
+				if (isUpdating) {
+					res = "redirect:/employee/edit?id="+e_id;
+				} else {
+					res = "redirect:/employee/edit";
+				}
+
+			// DB問い合わせ後のエラーチェック通過後の処理
+			} else {
+				// 編集中であればセッションを削除
+				if (isUpdating) {
+					session.removeAttribute("e_id");
+				}
 			}
 		}
 
