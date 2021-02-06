@@ -78,5 +78,5 @@ javaのキーワードには下記のものがある。クラス名や変数名�
         ×MYCONSTANTVALUE      ←  _で区切られていない
 ```
 
-[目次に戻る](CONTENTS.MD)
+[目次に戻る](CONTENTS.md)
 
