@@ -8,4 +8,4 @@
 メイン機能となる面談報告書管理機能はモック（画面イメージのみのプロトタイプ）となっています。
 別途、設計書をもとに実装してみましょう。
 
-[コーディング規約](doc/CodeConventions/CONTENTS.MD)
+[コーディング規約](doc/CodeConventions/CONTENTS.md)
