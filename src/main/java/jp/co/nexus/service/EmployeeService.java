@@ -95,7 +95,11 @@ public class EmployeeService{
 	 * @return 削除件数
 	 */
     public int deleteEmployee(String[] e_id) {
-        int result = employeeDao.deleteEmployee(e_id);
+		// 削除した件数
+        int result = 0;
+
+        // TODO: 処理を追加してみましょう
+
         return result;
     }
 

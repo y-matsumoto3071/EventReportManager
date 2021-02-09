@@ -85,19 +85,7 @@ public class EmployeeDao {
 		// 削除した件数
 		int result = 0;
 
-		for (String id : e_id) {
-
-			// SQL文作成
-			String sql = "UPDATE employee SET deleteflg = '0', "
-					+ "employee_name = concat(employee_name, '【廃止】')  "
-					+ "WHERE employee_id =?";
-
-			// ？の箇所を置換するデータの配列を定義
-			Object[] param = { id };
-
-			// クエリを実行
-			result += jdbcTemplate.update(sql, param);
-		}
+		// TODO: 処理を追加してみましょう
 
 		// 実行件数を返す
 		return result;
@@ -114,14 +102,7 @@ public class EmployeeDao {
 		// 実行結果
 		int result = 0;
 
-		// SQL文作成
-		String sql = "INSERT INTO employee (employee_name, employee_category, deleteflg) VALUES (?, ?, 1)";
-
-		// ？の箇所を置換するデータの配列を定義
-		Object[] param = { e_name,e_category };
-
-		// クエリを実行
-		jdbcTemplate.update(sql, param);
+		// TODO: 処理を追加してみましょう
 
 		// 実行結果を返す
 		return result;
@@ -137,14 +118,7 @@ public class EmployeeDao {
 		// 編集した件数
 		int result = 0;
 
-		// SQL文作成
-		String sql = "UPDATE employee SET employee_name = ?, employee_category=? WHERE employee_id =?";
-
-		// ？の箇所を置換するデータの配列を定義
-		Object[] param = { e_name,e_category,e_id };
-
-		// クエリを実行
-		result += jdbcTemplate.update(sql, param);
+		// TODO: 処理を追加してみましょう
 
 		// 実行件数を返す
 		return result;

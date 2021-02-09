@@ -65,19 +65,7 @@ public class ClientDao {
 		// 削除した件数
 		int result = 0;
 
-		for (String id : c_id) {
-
-			// SQL文作成
-			String sql = "UPDATE client SET deleteflg = '0', "
-					+ "client_name = concat(client_name, '【廃止】')  "
-					+ "WHERE client_id =?";
-
-			// ？の箇所を置換するデータの配列を定義
-			Object[] param = { id };
-
-			// クエリを実行
-			result += jdbcTemplate.update(sql, param);
-		}
+		// TODO: 処理を追加してみましょう
 
 		// 実行件数を返す
 		return result;
@@ -134,14 +122,7 @@ public class ClientDao {
 		// 実行結果
 		int result = 0;
 
-		// SQL文作成
-		String sql = "INSERT INTO client (client_name, deleteflg) VALUES (?, 1)";
-
-		// ？の箇所を置換するデータの配列を定義
-		Object[] param = { c_name };
-
-		// クエリを実行
-		jdbcTemplate.update(sql, param);
+		// TODO: 処理を追加してみましょう
 
 		// 実行結果を返す
 		return result;
@@ -156,14 +137,7 @@ public class ClientDao {
 		// 編集した件数
 		int result = 0;
 
-		// SQL文作成
-		String sql = "UPDATE client SET client_name = ? WHERE client_id =?";
-
-		// ？の箇所を置換するデータの配列を定義
-		Object[] param = { c_name,c_id };
-
-		// クエリを実行
-		result += jdbcTemplate.update(sql, param);
+		// TODO: 処理を追加してみましょう
 
 		// 実行件数を返す
 		return result;

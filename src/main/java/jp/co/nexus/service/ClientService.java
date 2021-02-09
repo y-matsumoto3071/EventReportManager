@@ -98,7 +98,11 @@ public class ClientService{
 	 * @return 削除件数
 	 */
 	public int deleteClient(String[] c_id) {
-		int result = clientDao.deleteClient(c_id);
+		// 削除した件数
+		int result = 0;
+
+		// TODO: 処理を追加してみましょう
+
 		return result;
 	}
 
