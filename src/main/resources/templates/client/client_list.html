@@ -41,7 +41,6 @@
 							th:value="${item.client_id}"></th>
 						<td th:text="${item.client_id}"></td>
 						<td class="position-relative"><a
-							href="javascript:forms.submit()"
 							th:href="@{/client/edit?id={client_id}(client_id=${item.client_id})}"
 							class="stretched-link" th:text="${item.client_name}"> </a></td>
 					</tr>
