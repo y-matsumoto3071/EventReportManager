@@ -183,7 +183,7 @@ public class EmployeeController {
 
 		//★カテゴリ組み合わせチェック
 		} else if(check==1) {
-			attributeValue = "適切な組み合わせを選んでください。<br>CCG : 〇〇エリア、SCG : 〇〇チーム";
+			attributeValue = "適切な組み合わせを選んでください。";
 			res = "redirect:/employee/edit";
 
 		// DB問い合わせ前のエラーチェック通過後の処理
