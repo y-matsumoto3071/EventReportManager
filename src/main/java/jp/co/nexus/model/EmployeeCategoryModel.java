@@ -62,7 +62,7 @@ public class EmployeeCategoryModel {
 	public int categoryCheck(String e_category) {
 		int check = 0;
 		if(e_category.substring(0,3).equals("scg")) {
-			if(e_category.substring(4,5).equals("0")){
+			if(e_category.substring(4,5).equals("0") || e_category.substring(3).equals("チームを選択")){
 				check = 1;
 			}
 		} else {
