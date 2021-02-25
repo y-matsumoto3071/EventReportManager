@@ -3,6 +3,9 @@
  */
 package jp.co.nexus.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,7 +17,7 @@ import jp.co.nexus.model.Report;
  * 報告書管理機能で使用する報告書情報の登録・検索・編集・削除に関するSQLを
  * 作成して実行するクラス
  *
- * @author 氏名を記載すること
+ * @author 中村 美南海
  *
  */
 @Repository
@@ -30,5 +33,25 @@ public class ReportDao {
 		jdbcTemplate.update("sql", "args");
 	}
 
+	/**
+	 * 状態区分=0以外の面談報告書を全件取得してListで返すSQLを実行する
+	 * @param なし
+	 * @return list 取得結果のList
+	 */
+	public List<Map<String, Object>> searchAll() {
+
+		//SQL文作成
+		String sql = "SELECT * FROM event, client, employee WHERE "
+				   + "client.client_id = event_client_id AND "
+				   + "employee.employee_id = event_entry_employee_id "
+				   + "AND event_status != 0";
+
+		//クエリを実行
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+
+		//取得したリストを返す
+		return list;
+
+	}
 
 }

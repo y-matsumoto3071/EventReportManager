@@ -60,32 +60,25 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr th:each="item:${report_list}">
           <th scope="row"><input type="checkbox" name="selectCheck"></th>
-          <td class="position-relative"><a class="stretched-link">XX株式会社</a></td>
-          <td>2020-02-27</td>
-          <td>根草須太郎</td>
+          <td class="position-relative"><a href="#" class="stretched-link" th:text="${item.client_name}"></a></td>
+          <td th:text="${item.event_date}"></td>
+          <td th:text="${item.employee_name}"></td>
           <!-- 案件概要は25文字まで表示可能とし、表示しきれない部分があれば"…"で省略表示すること -->
-          <td>人事総務向けシステムの新規案件の設計、構築、テスト…</td>
+          <td th:text="${item.event_project}"></td>
           <!-- 面談報告書.状態区分によって表示を分岐する
                状態区分＝２（確認済）は"-(ハイフン)"、状態区分＝１（作成済）は鉛筆マーク
                鉛筆マークの表示方法は下記モックアップsvgタグを参照 -->
-          <td><a><svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16"
+          <td><a href="#"><svg th:if="${item.event_status}==1" class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16"
                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                   d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" />
                 <path fill-rule="evenodd"
                   d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z" />
-              </svg></a></td>
-        </tr>
-        <tr>
-          <th scope="row"><input type="checkbox" name="selectCheck"></th>
-          <td class="position-relative"><a class="stretched-link">XX株式会社</a></td>
-          <td>2020-02-27</td>
-          <td>根草須太郎</td>
-          <!-- 案件概要は25文字まで表示可能とし、表示しきれない部分があれば"…"で省略表示すること -->
-          <td>人事総務向けシステムの新規案件の設計、構築、テスト…</td>
-          <td><a> - </a></td>
+              </svg></a>
+           <span th:if="${item.event_status}==2">-</span>
+           </td>
         </tr>
       </tbody>
     </table>
