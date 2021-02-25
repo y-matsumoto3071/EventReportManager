@@ -40,10 +40,18 @@ public class ReportService {
 	 */
 	public List<Map<String, Object>> searchAll(){
 		List<Map<String, Object>> list = dao.searchAll();
+
+		//案件概要文字数制限メソッド呼び出し
 		eventProjectNameSet(list);
 		return list;
 	}
 
+	/**
+	 * 報告書一覧表示のHTMLで、案件概要は25文字まで表示可能とし、表示しきれない部分があれば"…"で省略表示
+	 * mapの値を更新する
+	 * @param list
+	 * @return なし
+	 */
 	public void eventProjectNameSet(List<Map<String, Object>> list) {
 
 		//listから１件ずつMapを取り出し、event_projectを取得
@@ -60,10 +68,9 @@ public class ReportService {
 				eventProjectName.append(eventProject.substring(0,25));
 
 				//切り出した文字列に「...」を追加
-				eventProjectName.append("...");
+				eventProjectName.append("…");
 
-				//StringBuilder型のままではmap
-
+				//mapのevent_projectを上書き
 				map.put("event_project", eventProjectName);
 			}
 
