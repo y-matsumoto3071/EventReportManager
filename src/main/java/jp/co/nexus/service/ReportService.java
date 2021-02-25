@@ -40,7 +40,35 @@ public class ReportService {
 	 */
 	public List<Map<String, Object>> searchAll(){
 		List<Map<String, Object>> list = dao.searchAll();
+		eventProjectNameSet(list);
 		return list;
+	}
+
+	public void eventProjectNameSet(List<Map<String, Object>> list) {
+
+		//listから１件ずつMapを取り出し、event_projectを取得
+		for(Map<String, Object> map : list) {
+			String eventProject = String.valueOf(map.get("event_project"));
+
+			//event_projectの文字数が25文字以上か判定
+			if(eventProject.length() > 25) {
+
+				//StringBuilderインスタンスを生成
+				StringBuilder eventProjectName = new StringBuilder();
+
+				//event_projectの25文字目までを切り出し
+				eventProjectName.append(eventProject.substring(0,25));
+
+				//切り出した文字列に「...」を追加
+				eventProjectName.append("...");
+
+				//StringBuilder型のままではmap
+
+				map.put("event_project", eventProjectName);
+			}
+
+		}
+
 	}
 
 }
