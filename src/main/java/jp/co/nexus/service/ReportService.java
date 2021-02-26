@@ -73,9 +73,18 @@ public class ReportService {
 				//mapのevent_projectを上書き
 				map.put("event_project", eventProjectName);
 			}
-
 		}
-
 	}
+
+	/**
+	 * 報告書IDで指定された顧客情報を返す
+	 * @param eventId 抽出対象の報告書IDのInteger
+	 * @return reportMap 抽出対象のMap
+	 */
+	public Map<String, Object> searchReport(Integer eventId){
+		Map<String, Object> reportMap = dao.searchReport(eventId);
+		return reportMap;
+	}
+
 
 }
