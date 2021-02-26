@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jp.co.nexus.service.ClientService;
+import jp.co.nexus.service.EmployeeService;
 import jp.co.nexus.service.ReportService;
 
 /**
@@ -29,6 +31,12 @@ public class ReportController {
 	@Autowired
 	ReportService reportService;
 
+	@Autowired
+	ClientService clientService;
+
+	@Autowired
+	EmployeeService employeeService;
+
 	/**
 	 * RL-010-010 報告書一覧表示画面遷移
 	 * 報告書一覧画面に遷移する
@@ -44,6 +52,7 @@ public class ReportController {
 
 	/**
 	 * RB-010-010 報告書詳細表示画面遷移
+	 * 報告書詳細画面に遷移する
 	 */
 	@GetMapping("/browse")
 	public String reportBrowse(@RequestParam("id") Integer eventId, Model model) {
@@ -54,8 +63,21 @@ public class ReportController {
 		return "report/report_browse";
 	}
 
+	/**
+	 * RC-010-010 報告書新規登録画面遷移
+	 * 報告書新規登録画面に遷移する
+	 */
 	@GetMapping("/create")
-	public String reportCreate() {
+	public String reportCreate(Model model) {
+
+		//論理削除を除く顧客データ取得
+		List<Map<String, Object>> clientList = clientService.searchActive();
+		model.addAttribute("client_list", clientList);
+
+		//論理削除を除く社員データ取得
+		List<Map<String, Object>> employeeList = employeeService.searchActive();
+		model.addAttribute("employee_list", employeeList);
+
 		return "report/report_create";
 	}
 

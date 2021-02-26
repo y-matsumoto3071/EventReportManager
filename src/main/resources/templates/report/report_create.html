@@ -16,7 +16,7 @@
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
 
     <h1>面談報告書新規作成</h1>
-    <form class="mt-5">
+    <form class="mt-5" action="/report/create" method="post">
       <div class="row">
         <div class="col-md-6">
           <h4>顧客選択</h4>
@@ -35,17 +35,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>XX株式会社</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>XX堂</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>株式会社XXXXX</td>
+                <tr th:each="c:${client_list}">
+                  <th scope="row" th:text="${c.client_id}"></th>
+                  <td th:text="${c.client_name}"></td>
                 </tr>
               </tbody>
             </table>
@@ -75,34 +67,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>CCG</td>
-                  <td>江渕太郎</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>CCG</td>
-                  <td>廣田有都</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>SCG</td>
-                  <td>本間洋平</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>SCG</td>
-                  <td>根草須太郎</td>
-                </tr>
+                <tr th:each="e:${employee_list}">
+                  <th scope="row" th:text="${e.employee_id}"></th>
+                  <td th:text = "${e.employee_category=='ccgt0' || e.employee_category=='ccgh0'} ?'CCG':'SCG'"></td>
+                  <td th:text="${e.employee_name}"></td>
               </tbody>
             </table>
           </div>
         </div>
         <div class="row">
           <p class="mt-5 ml-4">
-            <button type="button" class="btn btn-outline-primary">次へ</button>
-            <button type="button" class="btn btn-outline-primary">キャンセル</button>
+            <button type="submit" class="btn btn-outline-primary">次へ</button>
+            <button type="button" class="btn btn-outline-primary" onclick="location.href='/report/list'">キャンセル</button>
           </p>
         </div>
       </div>
