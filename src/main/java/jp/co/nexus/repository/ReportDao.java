@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -76,6 +77,48 @@ public class ReportDao {
 
 		//取得したデータを返す
 		return reportMap;
+	}
+
+	/**
+	 * 指定された顧客を抽出するSQLを実行
+	 * @param clientId 抽出対象の顧客IDのInteger
+	 * @return clientMap 抽出結果のMap
+	 * @throws EmptyResultDataAccessException
+	 */
+	public Map<String, Object> searchClient (String clientId) throws EmptyResultDataAccessException {
+
+		//SQL文作成
+		String sql = "SELECT * FROM client WHERE client_id = ? AND deleteflg != 0";
+
+		//?の箇所を置換するデータの配列を定義
+		Object[] param = { clientId };
+
+		//クエリを実行
+		Map<String, Object> clientMap = jdbcTemplate.queryForMap(sql, param);
+
+		//取得したデータを返す
+		return clientMap;
+	}
+
+	/**
+	 * 指定された社員を抽出するSQLを実行
+	 * @param EemployeeId 抽出対象の社員IDのInteger
+	 * @return employeetMap 抽出結果のMap
+	 * @throws EmptyResultDataAccessException
+	 */
+	public Map<String, Object> searchEmployee(String employeeId) throws EmptyResultDataAccessException {
+
+		//SQL文作成
+		String sql = "SELECT * FROM employee WHERE employee_id = ? AND deleteflg != 0";
+
+		//?の箇所を置換するデータの配列を定義
+		Object[] param = { employeeId };
+
+		//クエリを実行
+		Map<String, Object> employeeMap = jdbcTemplate.queryForMap(sql, param);
+
+		//取得したデータを返す
+		return employeeMap;
 	}
 
 }

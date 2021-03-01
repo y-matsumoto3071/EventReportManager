@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jp.co.nexus.model.Report;
 import jp.co.nexus.service.ClientService;
 import jp.co.nexus.service.EmployeeService;
 import jp.co.nexus.service.ReportService;
@@ -68,7 +72,7 @@ public class ReportController {
 	 * 報告書新規登録画面に遷移する
 	 */
 	@GetMapping("/create")
-	public String reportCreate(Model model) {
+	public String reportCreate(@ModelAttribute Report report, Model model) {
 
 		//論理削除を除く顧客データ取得
 		List<Map<String, Object>> clientList = clientService.searchActive();
@@ -81,8 +85,52 @@ public class ReportController {
 		return "report/report_create";
 	}
 
+	/**
+	 * RC-010-020 新規登録入力内容妥当性判定1
+	 * 各項目エラーチェック
+	 */
+	@PostMapping("/create")
+	public String reportCreate(@ModelAttribute Report report, Model model,
+							   RedirectAttributes attr) {
+		//各項目をフラッシュスコープに保存
+		attr.addFlashAttribute("createEmployeeId", report.getCreateEmployeeId());
+		attr.addFlashAttribute("ccgId", report.getCcgId());
+		attr.addFlashAttribute("clientId", report.getClientId());
+
+		//returnで返す画面を格納する変数
+		String res = "";
+
+		//未入力チェック
+		if(report.getCreateEmployeeId().isEmpty() ||
+		   report.getCcgId().isEmpty() ||
+		   report.getClientId().isEmpty()) {
+
+			attr.addFlashAttribute("message", "未入力の項目があります。");
+			res = "redirect:/report/create";
+		}else {
+			//入力された各値が存在（有効）IDであるかDBに問合せ
+			String clientResult = reportService.searchClient(report.getClientId());
+			String ccgResult = reportService.searchEmployee(report.getCcgId());
+			String createResult = reportService.searchEmployee(report.getCreateEmployeeId());
+
+			if(clientResult.equals("0") || ccgResult.equals("0") || createResult.equals("0")) {
+				attr.addFlashAttribute("message", "適切な数値を入力してください。");
+				res = "redirect:/report/create";
+			}else {
+				attr.addFlashAttribute("clientName", clientResult);
+				attr.addFlashAttribute("createEmployee", createResult);
+				res = "redirect:/report/edit";
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * RC-010-020 新規登録入力内容妥当性判定1
+	 * 入力内容判定がOKだった場合の画面遷移先
+	 */
 	@GetMapping("/edit")
-	public String reportEdit() {
+	public String reportEdit(@ModelAttribute Report report) {
 		return "report/report_edit";
 	}
 

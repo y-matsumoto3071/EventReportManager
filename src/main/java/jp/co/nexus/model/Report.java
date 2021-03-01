@@ -7,7 +7,7 @@ package jp.co.nexus.model;
  * 報告書管理機能で使用する面談情報を管理するクラス
  * Report.java
  *
- * @author 氏名を記載すること
+ * @author 中村 美南海
  *
  */
 public class Report {

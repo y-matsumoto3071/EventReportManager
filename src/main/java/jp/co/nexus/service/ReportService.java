@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import jp.co.nexus.model.Report;
@@ -84,6 +85,44 @@ public class ReportService {
 	public Map<String, Object> searchReport(Integer eventId){
 		Map<String, Object> reportMap = dao.searchReport(eventId);
 		return reportMap;
+	}
+
+	/**
+	 * 顧客IDで指定された顧客名を返す
+	 * @param clientId 抽出対象の顧客IDのInteger
+	 * @return result 抽出結果のString
+	 */
+	public String searchClient(String clientId) {
+		String result;
+		try {
+			Map<String, Object> clientMap = dao.searchClient(clientId);
+
+			//取得したMapから顧客名を取得しキャスト
+			result = String.valueOf(clientMap.get("client_name"));
+
+		}catch(EmptyResultDataAccessException e){
+			result = "0";
+		}
+		return result;
+	}
+
+	/**
+	 * 社員IDで指定された社員名を返す
+	 * @param employeeId 抽出対象の社員IDのInteger
+	 * @return result 抽出結果のString
+	 */
+	public String searchEmployee(String employeeId) {
+		String result;
+		try {
+			Map<String, Object> employeeMap = dao.searchEmployee(employeeId);
+
+			//取得したMapから社員名を取得しキャスト
+			result = String.valueOf(employeeMap.get("employee_name"));
+
+		}catch(EmptyResultDataAccessException e) {
+			result = "0";
+		}
+		return result;
 	}
 
 
