@@ -3,6 +3,7 @@
  */
 package jp.co.nexus.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -130,10 +131,67 @@ public class ReportController {
 	 * 入力内容判定がOKだった場合の画面遷移先
 	 */
 	@GetMapping("/edit")
-	public String reportEdit(@ModelAttribute Report report) {
+	public String reportEdit(@ModelAttribute Report report,Model model) {
+
+		//報告日（作成日）を取得し、スコープに保存
+		LocalDate createDate = LocalDate.now();
+		model.addAttribute("createDate", createDate);
+
 		return "report/report_edit";
 	}
 
+	/**
+	 * RC-020-010 新規登録入力内容妥当性判定2
+	 * 各項目エラーチェック
+	 */
+	@PostMapping("/edit")
+	public String reportEdit(@ModelAttribute Report report, RedirectAttributes attr) {
+
+		//各項目をフラッシュスコープに保存
+		attr.addFlashAttribute("clientId", report.getClientId());
+		attr.addFlashAttribute("ccgId", report.getCcgId());
+		attr.addFlashAttribute("createEmployeeId", report.getCreateEmployeeId());
+		attr.addFlashAttribute("eventDate", report.getEventDate());
+		attr.addFlashAttribute("eventStartTime", report.getEventStartTime());
+		attr.addFlashAttribute("eventEndTime", report.getEventEndTime());
+		attr.addFlashAttribute("createDate", report.getCreateDate());
+		attr.addFlashAttribute("createEmployee", report.getCreateEmployee());
+		attr.addFlashAttribute("clientName", report.getClientName());
+		attr.addFlashAttribute("contactName", report.getContactName());
+		attr.addFlashAttribute("eventMember", report.getEventMember());
+		attr.addFlashAttribute("eventLocation", report.getEventLocation());
+		attr.addFlashAttribute("eventProject", report.getEventProject());
+		attr.addFlashAttribute("eventSession", report.getEventSession());
+		attr.addFlashAttribute("eventReport", report.getEventReport());
+		attr.addFlashAttribute("eventFeedbackByCCG", report.getEventFeedbackByCCG());
+
+		//returnで返す画面を格納する変数
+		String res = "";
+
+		//未入力チェック
+		if(report.getEventDate().isEmpty() ||
+		   report.getEventStartTime().isEmpty() ||
+		   report.getEventEndTime().isEmpty() ||
+		   report.getContactName().isEmpty() ||
+		   report.getEventMember().isEmpty() ||
+		   report.getEventLocation().isEmpty() ||
+		   report.getEventProject().isEmpty() ||
+		   report.getEventSession().isEmpty() ||
+		   report.getEventReport().isEmpty() ||
+		   report.getEventFeedbackByCCG().isEmpty()) {
+
+			attr.addFlashAttribute("message", "未入力の項目があります。");
+			res = "redirect:/report/edit";
+		}else {
+			res = "redirect:/report/confirm";
+		}
+		return res;
+	}
+
+	/**
+	 * RC-020-010 新規登録入力内容妥当性判定2
+	 * 入力内容判定がOKだった場合の画面遷移先
+	 */
 	@GetMapping("/confirm")
 	public String reportConfirm() {
 		return "report/report_confirm";
