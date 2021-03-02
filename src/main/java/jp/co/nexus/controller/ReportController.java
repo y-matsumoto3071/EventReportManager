@@ -197,4 +197,30 @@ public class ReportController {
 		return "report/report_confirm";
 	}
 
+	/**
+	 * RC-030-010 報告書入力内容DB登録
+	 */
+	@PostMapping("/confirm")
+	public String reportConfirm(@ModelAttribute Report report, RedirectAttributes attr) {
+
+		//DB登録処理
+		String message = reportService.registReport(report.getCcgId(),
+												    report.getEventDate(),
+												    report.getEventStartTime(),
+												    report.getEventEndTime(),
+												    report.getCreateDate(),
+												    report.getClientId(),
+												    report.getContactName(),
+												    report.getEventMember(),
+												    report.getEventLocation(),
+												    report.getEventProject(),
+												    report.getEventSession(),
+												    report.getEventReport(),
+												    report.getEventFeedbackByCCG(),
+												    report.getCreateEmployeeId());
+		attr.addFlashAttribute("message", message);
+
+		return "redirect:/report/list";
+	}
+
 }
