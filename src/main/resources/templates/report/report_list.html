@@ -14,12 +14,12 @@
 <div th:replace="~{block/header::header}"></div>
   <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <img src="../img/logo.png" alt="ERM" class="rounded mx-auto d-block">
+    <form class="mb-3" action="/report/list" method="post">
     <div class="text-danger" th:text="${message}"></div>
     <p class="mt-3 mb-3">
       <button type="button" class="btn btn-outline-primary" onclick="location.href='/report/create'">新規作成</button>
-      <button type="button" class="btn btn-outline-primary">選択した報告書を削除</button>
+      <button type="submit" class="btn btn-outline-primary" name="delete">選択した報告書を削除</button>
     </p>
-    <form class="mb-3">
       <div class="row form-group">
         <div class="col-10 input-group">
           <div class="form-check form-check-inline">
@@ -47,7 +47,6 @@
           <button type="button" class="ml-3 btn btn-outline-primary">検索</button>
         </div>
       </div>
-    </form>
     <div class="text-nowrap table-responsive mt-3">
     <table class="table table-sm table-striped table-bordered text-center mt-3">
       <thead>
@@ -62,7 +61,7 @@
       </thead>
       <tbody>
         <tr th:each="item:${report_list}">
-          <th scope="row"><input type="checkbox" name="selectCheck"></th>
+          <th scope="row"><input type="checkbox" name="selectCheck" th:value="${item.event_id}"></th>
           <td class="position-relative"><a  th:href="@{/report/browse?id={event_id}(event_id=${item.event_id})}" class="stretched-link" th:text="${item.client_name}"></a></td>
           <td th:text="${item.event_date}"></td>
           <td th:text="${item.employee_name}"></td>
@@ -84,6 +83,7 @@
       </tbody>
     </table>
     </div>
+   </form>
   </div>
 <div th:replace="~{block/footer::footer}"></div>
 

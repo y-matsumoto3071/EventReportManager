@@ -165,5 +165,15 @@ public class ReportService {
 		return message;
 	}
 
+	/**
+	 * 指定された報告書を論理削除する
+	 * @param r_id 削除対象の報告書IDnoString配列
+	 * @return result 削除件数
+	 */
+	public int reportDelete(String[] r_id) {
+		int result = dao.reportDelete(r_id);
+		return result;
+	}
+
 
 }

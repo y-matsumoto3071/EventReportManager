@@ -164,4 +164,28 @@ public class ReportDao {
 		return result;
 	}
 
+	/**
+	 * 指定された報告書を論理削除するSQLを実行する
+	 * @param r_id 削除対象の報告書IDのString配列
+	 * @return result 削除件数
+	 */
+	public int reportDelete(String[] r_id) {
+
+		//削除した件数
+		int result = 0;
+
+		for(String id : r_id) {
+			//SQL文作成
+			String sql = "UPDATE event SET event_status = '0' WHERE event_id = ?";
+
+			//?の箇所を置換するデータの配列を定義
+			Object[] param = { id };
+
+			//クエリを実行
+			result += jdbcTemplate.update(sql, param);
+		}
+		//実行件数を返す
+		return result;
+	}
+
 }

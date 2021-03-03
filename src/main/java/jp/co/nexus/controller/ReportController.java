@@ -223,4 +223,22 @@ public class ReportController {
 		return "redirect:/report/list";
 	}
 
+	/**
+	 *RD-010-010 報告書削除処理
+	 */
+	@PostMapping(value = "/list", params = "delete")
+	public String reportDelete(@RequestParam(name = "selectCheck", required = false) String[] r_id,
+							   RedirectAttributes attr) {
+		//未入力チェック
+		if(r_id == null) {
+			attr.addFlashAttribute("message", "削除する報告書を選択してください。");
+		}else {
+			//論理削除実行
+			int result = reportService.reportDelete(r_id);
+			attr.addFlashAttribute("message", result+"件削除しました。");
+		}
+
+		return "redirect:/report/list";
+	}
+
 }
