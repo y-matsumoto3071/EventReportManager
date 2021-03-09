@@ -78,12 +78,27 @@ public class ReportService {
 	}
 
 	/**
-	 * 報告書IDで指定された顧客情報を返す
+	 * 報告書IDで指定された報告書情報を返す
 	 * @param eventId 抽出対象の報告書IDのInteger
 	 * @return reportMap 抽出対象のMap
 	 */
 	public Map<String, Object> searchReport(Integer eventId){
 		Map<String, Object> reportMap = dao.searchReport(eventId);
+		return reportMap;
+	}
+
+	/**
+	 * 報告書IDで指定された報告書情報を返す
+	 * @param eventId 抽出対象の報告書IDのInteger
+	 * @return reportMap 抽出対象のMap
+	 */
+	public Map<String, Object> searchEditReport(Integer eventId){
+		Map<String, Object> reportMap;
+		try {
+			reportMap = dao.searchEditReport(eventId);
+		}catch(EmptyResultDataAccessException e){
+			reportMap = null;
+		}
 		return reportMap;
 	}
 
@@ -160,6 +175,42 @@ public class ReportService {
 		//daoでreturnされた実行件数が１の場合、正しく登録されているため、登録完了メッセージを代入する
 		if(result == 1) {
 			message = "登録が完了しました。";
+		}
+
+		return message;
+	}
+
+	/**
+	 * 報告書編集をする
+	 * @param eventId				編集する報告書IDのString
+	 * @param eventDate 			編集する面談日のString
+	 * @param eventStartTime 		編集する面談開始時間のString
+	 * @param eventEndTime 			編集する面談終了時間のString
+	 * @param createDate 			編集する報告日のString
+	 * @param contactName 			編集する担当者名のString
+	 * @param eventMember 			編集する面談参加者のString
+	 * @param eventLocation 		編集する面談場所のString
+	 * @param eventProject 			編集する案件概要のString
+	 * @param eventSession 			編集する質疑応答のString
+	 * @param eventReport 			編集する考察のString
+	 * @param eventFeedbackByCCG 	編集するCCG評価のString
+	 * @return message 				編集完了メッセージ
+	 */
+	public String updateReport(String eventId,  	String eventDate,     String eventStartTime,
+							   String eventEndTime, String createDate,    String contactName,
+							   String eventMember,  String eventLocation, String eventProject,
+							   String eventSession, String eventReport,   String eventFeedbackByCCG) {
+
+		int result = dao.updateReport(eventId, 		eventDate, 	   eventStartTime,
+									  eventEndTime, createDate,    contactName,
+									  eventMember, 	eventLocation, eventProject,
+									  eventSession, eventReport,   eventFeedbackByCCG);
+		//メッセージ文言を格納する変数
+		String message = "";
+
+		//daoでreturnされた実行件数が１の場合、正しく更新されているため、編集完了メッセージを代入する
+		if(result == 1) {
+			message = "編集が完了しました。";
 		}
 
 		return message;

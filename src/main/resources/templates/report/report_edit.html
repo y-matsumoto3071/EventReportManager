@@ -16,6 +16,7 @@
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <form class="form-group" action="/report/edit" method="post">
     <div class="text-danger" th:text="${message}"></div>
+    <input type="hidden" name="eventId" th:value="${eventId}">
     <input type="hidden" name="clientId" th:value="${clientId}">
     <input type="hidden" name="ccgId" th:value="${ccgId}">
     <input type="hidden" name="createEmployeeId" th:value="${createEmployeeId}">
@@ -64,8 +65,7 @@
         <p class="mt-5 ml-3">
           <button type="submit" class="btn btn-outline-primary">確認</button>
           <!-- ★編集時には「戻る」ボタンを表示させない -->
-          <button type="button" class="btn btn-outline-primary"
-            onclick="location.href='javascript:history.back();'">戻る</button>
+          <button th:if="!${eventId}" type="button" class="btn btn-outline-primary" onclick="location.href='javascript:history.back();'">戻る</button>
           <button type="button" class="btn btn-outline-primary" onclick="location.href='/report/list'">キャンセル</button>
         </p>
       </div>

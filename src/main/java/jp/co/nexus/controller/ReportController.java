@@ -129,15 +129,53 @@ public class ReportController {
 	/**
 	 * RC-010-020 新規登録入力内容妥当性判定1
 	 * 入力内容判定がOKだった場合の画面遷移先
+	 *
+	 * RE-010-010 報告書編集画面遷移
+	 * DB登録済みの状態区分=1の指定された報告書IDの編集画面を表示する
 	 */
 	@GetMapping("/edit")
-	public String reportEdit(@ModelAttribute Report report,Model model) {
+	public String reportEdit(@ModelAttribute Report report,
+							 @RequestParam(name ="id", defaultValue = "") Integer r_id,
+							 Model model) {
 
 		//報告日（作成日）を取得し、スコープに保存
 		LocalDate createDate = LocalDate.now();
 		model.addAttribute("createDate", createDate);
 
-		return "report/report_edit";
+		//returnで返す画面を格納する変数
+		String res = "";
+
+		//編集時
+		if(!(r_id == null)) {
+			Map<String, Object> map = reportService.searchEditReport(r_id);
+
+			if(map == null) {
+				//不正パラメータ入力時は一覧表示画面にリダイレクト
+				res = "redirect:/report/list";
+			}else {
+				//取得したMapの各値をスコープに保存
+				model.addAttribute("eventId", map.get("event_id"));
+				model.addAttribute("clientId", map.get("client_id"));
+				model.addAttribute("ccgId", map.get("event_sales_employee_id"));
+				model.addAttribute("createEmployeeId", map.get("event_entry_employee_id"));
+				model.addAttribute("eventDate", map.get("event_date"));
+				model.addAttribute("eventStartTime", map.get("event_start_time"));
+				model.addAttribute("eventEndTime", map.get("event_end_time"));
+				model.addAttribute("createEmployee", map.get("employee_name"));
+				model.addAttribute("clientName", map.get("client_name"));
+				model.addAttribute("contactName", map.get("event_contact"));
+				model.addAttribute("eventMember", map.get("event_member"));
+				model.addAttribute("eventLocation", map.get("event_location"));
+				model.addAttribute("eventProject", map.get("event_project"));
+				model.addAttribute("eventSession", map.get("event_session"));
+				model.addAttribute("eventReport", map.get("event_report"));
+				model.addAttribute("eventFeedbackByCCG", map.get("event_feedback_byccg"));
+
+				res = "report/report_edit";
+			}
+		}
+
+		return res;
 	}
 
 	/**
@@ -146,6 +184,11 @@ public class ReportController {
 	 */
 	@PostMapping("/edit")
 	public String reportEdit(@ModelAttribute Report report, RedirectAttributes attr) {
+
+		//編集時は報告書IDをスコープに保存
+		if(!(report.getEventId().isEmpty())) {
+			attr.addFlashAttribute("eventId", report.getEventId());
+		}
 
 		//各項目をフラッシュスコープに保存
 		attr.addFlashAttribute("clientId", report.getClientId());
@@ -190,6 +233,7 @@ public class ReportController {
 
 	/**
 	 * RC-020-010 新規登録入力内容妥当性判定2
+	 * RE-010-020 編集内容妥当性判定
 	 * 入力内容判定がOKだった場合の画面遷移先
 	 */
 	@GetMapping("/confirm")
@@ -199,27 +243,44 @@ public class ReportController {
 
 	/**
 	 * RC-030-010 報告書入力内容DB登録
+	 * RE-010-030 報告書編集内容DB登録
 	 */
 	@PostMapping("/confirm")
 	public String reportConfirm(@ModelAttribute Report report, RedirectAttributes attr) {
 
-		//DB登録処理
-		String message = reportService.registReport(report.getCcgId(),
-												    report.getEventDate(),
-												    report.getEventStartTime(),
-												    report.getEventEndTime(),
-												    report.getCreateDate(),
-												    report.getClientId(),
-												    report.getContactName(),
-												    report.getEventMember(),
-												    report.getEventLocation(),
-												    report.getEventProject(),
-												    report.getEventSession(),
-												    report.getEventReport(),
-												    report.getEventFeedbackByCCG(),
-												    report.getCreateEmployeeId());
-		attr.addFlashAttribute("message", message);
-
+		if(report.getEventId().isEmpty()){
+			//報告書新規登録
+			String message = reportService.registReport(report.getCcgId(),
+													    report.getEventDate(),
+													    report.getEventStartTime(),
+													    report.getEventEndTime(),
+													    report.getCreateDate(),
+													    report.getClientId(),
+													    report.getContactName(),
+													    report.getEventMember(),
+													    report.getEventLocation(),
+													    report.getEventProject(),
+													    report.getEventSession(),
+													    report.getEventReport(),
+													    report.getEventFeedbackByCCG(),
+													    report.getCreateEmployeeId());
+			attr.addFlashAttribute("message", message);
+		}else {
+			//報告書更新
+			String message = reportService.updateReport(report.getEventId(),
+													    report.getEventDate(),
+													    report.getEventStartTime(),
+													    report.getEventEndTime(),
+													    report.getCreateDate(),
+													    report.getContactName(),
+													    report.getEventMember(),
+													    report.getEventLocation(),
+													    report.getEventProject(),
+													    report.getEventSession(),
+													    report.getEventReport(),
+													    report.getEventFeedbackByCCG());
+			attr.addFlashAttribute("message", message);
+		}
 		return "redirect:/report/list";
 	}
 
