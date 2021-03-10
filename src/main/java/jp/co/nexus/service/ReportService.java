@@ -92,14 +92,33 @@ public class ReportService {
 	 * @param eventId 抽出対象の報告書IDのInteger
 	 * @return reportMap 抽出対象のMap
 	 */
-	public Map<String, Object> searchEditReport(Integer eventId){
-		Map<String, Object> reportMap;
+	public Report searchEditReport(Integer eventId){
+		Map<String, Object> map;
+		Report report = new Report();
 		try {
-			reportMap = dao.searchEditReport(eventId);
+			map = dao.searchEditReport(eventId);
+
+			report.setCreateEmployeeId(String.valueOf(map.get("event_entry_employee_id")));
+			report.setCcgId(String.valueOf(map.get("event_sales_employee_id")));
+			report.setEventId(String.valueOf(map.get("event_id")));
+			report.setEventDate(String.valueOf(map.get("event_date")));
+			report.setEventStartTime(String.valueOf(map.get("event_start_time")));
+			report.setEventEndTime(String.valueOf(map.get("event_end_time")));
+			report.setCreateEmployee(String.valueOf(map.get("employee_name")));
+			report.setClientId(String.valueOf(map.get("client_id")));
+			report.setClientName(String.valueOf(map.get("client_name")));
+			report.setContactName(String.valueOf(map.get("event_contact")));
+			report.setEventMember(String.valueOf(map.get("event_member")));
+			report.setEventLocation(String.valueOf(map.get("event_location")));
+			report.setEventProject(String.valueOf(map.get("event_project")));
+			report.setEventSession(String.valueOf(map.get("event_session")));
+			report.setEventReport(String.valueOf(map.get("event_report")));
+			report.setEventFeedbackByCCG(String.valueOf(map.get("event_feedback_byccg")));
+
 		}catch(EmptyResultDataAccessException e){
-			reportMap = null;
+			report = null;
 		}
-		return reportMap;
+		return report;
 	}
 
 	/**
@@ -161,29 +180,12 @@ public class ReportService {
 
 	/**
 	 * 報告書編集をする
-	 * @param eventId				編集する報告書IDのString
-	 * @param eventDate 			編集する面談日のString
-	 * @param eventStartTime 		編集する面談開始時間のString
-	 * @param eventEndTime 			編集する面談終了時間のString
-	 * @param createDate 			編集する報告日のString
-	 * @param contactName 			編集する担当者名のString
-	 * @param eventMember 			編集する面談参加者のString
-	 * @param eventLocation 		編集する面談場所のString
-	 * @param eventProject 			編集する案件概要のString
-	 * @param eventSession 			編集する質疑応答のString
-	 * @param eventReport 			編集する考察のString
-	 * @param eventFeedbackByCCG 	編集するCCG評価のString
-	 * @return message 				編集完了メッセージ
+	 * @param report reportオブジェクト
+	 * @return message 編集完了メッセージ
 	 */
-	public String updateReport(String eventId,  	String eventDate,     String eventStartTime,
-							   String eventEndTime, String createDate,    String contactName,
-							   String eventMember,  String eventLocation, String eventProject,
-							   String eventSession, String eventReport,   String eventFeedbackByCCG) {
+	public String updateReport(Report report) {
 
-		int result = dao.updateReport(eventId, 		eventDate, 	   eventStartTime,
-									  eventEndTime, createDate,    contactName,
-									  eventMember, 	eventLocation, eventProject,
-									  eventSession, eventReport,   eventFeedbackByCCG);
+		int result = dao.updateReport(report);
 		//メッセージ文言を格納する変数
 		String message = "";
 

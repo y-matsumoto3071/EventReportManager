@@ -134,43 +134,23 @@ public class ReportController {
 	public String reportEdit(@ModelAttribute Report report,
 							 @RequestParam(name ="id", defaultValue = "") Integer r_id,
 							 Model model) {
-
-		//報告日（作成日）を取得し、スコープに保存
-		LocalDate createDate = LocalDate.now();
-		model.addAttribute("createDate", createDate);
-
 		//returnで返す画面を格納する変数
-		String res = "";
+		String res = "report/report_edit";
 
 		//編集時
-		if(!(r_id == null)) {
-			Map<String, Object> map = reportService.searchEditReport(r_id);
-
-			if(map == null) {
+		if(r_id != null) {
+			report = reportService.searchEditReport(r_id);
+			if(report == null) {
 				//不正パラメータ入力時は一覧表示画面にリダイレクト
 				res = "redirect:/report/list";
 			}else {
-				//取得したMapの各値をスコープに保存
-				model.addAttribute("eventId", map.get("event_id"));
-				model.addAttribute("clientId", map.get("client_id"));
-				model.addAttribute("ccgId", map.get("event_sales_employee_id"));
-				model.addAttribute("createEmployeeId", map.get("event_entry_employee_id"));
-				model.addAttribute("eventDate", map.get("event_date"));
-				model.addAttribute("eventStartTime", map.get("event_start_time"));
-				model.addAttribute("eventEndTime", map.get("event_end_time"));
-				model.addAttribute("createEmployee", map.get("employee_name"));
-				model.addAttribute("clientName", map.get("client_name"));
-				model.addAttribute("contactName", map.get("event_contact"));
-				model.addAttribute("eventMember", map.get("event_member"));
-				model.addAttribute("eventLocation", map.get("event_location"));
-				model.addAttribute("eventProject", map.get("event_project"));
-				model.addAttribute("eventSession", map.get("event_session"));
-				model.addAttribute("eventReport", map.get("event_report"));
-				model.addAttribute("eventFeedbackByCCG", map.get("event_feedback_byccg"));
-
-				res = "report/report_edit";
+				model.addAttribute("report", report);
 			}
 		}
+
+		//報告日（作成日）を取得し、スコープに保存
+		LocalDate createDate = LocalDate.now();
+		report.setCreateDate(String.valueOf(createDate));
 
 		return res;
 	}
@@ -181,11 +161,6 @@ public class ReportController {
 	 */
 	@PostMapping("/edit")
 	public String reportEdit(@ModelAttribute Report report, RedirectAttributes attr) {
-
-		//編集時は報告書IDをスコープに保存
-		if(!(report.getEventId().isEmpty())) {
-			attr.addFlashAttribute("eventId", report.getEventId());
-		}
 
 		//フォームをフラッシュスコープに保存
 		attr.addFlashAttribute("report", report);
@@ -236,18 +211,7 @@ public class ReportController {
 			attr.addFlashAttribute("message", message);
 		}else {
 			//報告書更新
-			String message = reportService.updateReport(report.getEventId(),
-													    report.getEventDate(),
-													    report.getEventStartTime(),
-													    report.getEventEndTime(),
-													    report.getCreateDate(),
-													    report.getContactName(),
-													    report.getEventMember(),
-													    report.getEventLocation(),
-													    report.getEventProject(),
-													    report.getEventSession(),
-													    report.getEventReport(),
-													    report.getEventFeedbackByCCG());
+			String message = reportService.updateReport(report);
 			attr.addFlashAttribute("message", message);
 		}
 		return "redirect:/report/list";

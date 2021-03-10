@@ -147,27 +147,10 @@ public class ReportDao {
 
 	/**
 	 * 報告書新規登録をする
-	 * @param ccgId 				登録する営業担当IDのString
-	 * @param eventDate 			登録する面談日のString
-	 * @param eventStartTime 		登録する面談開始時間のString
-	 * @param eventEndTime 			登録する面談終了時間のString
-	 * @param createDate 			登録する報告日のString
-	 * @param clientId 				登録する顧客IDのString
-	 * @param contactName 			登録する担当者名のString
-	 * @param eventMember 			登録する面談参加者のString
-	 * @param eventLocation 		登録する面談場所のString
-	 * @param eventProject 			登録する案件概要のString
-	 * @param eventSession 			登録する質疑応答のString
-	 * @param eventReport 			登録する考察のString
-	 * @param eventFeedbackByCCG 	登録するCCG評価のString
-	 * @param createEmployeeId 		登録する報告者IDのString
-	 * @return result 				実行件数を返す
+	 * @param reort reportオブジェクト
+	 * @return result 実行件数を返す
 	 */
-	public int registReport(String ccgId, 			   String eventDate,    String eventStartTime,
-							String eventEndTime,	   String createDate,   String clientId,
-							String contactName, 	   String eventMember,  String eventLocation,
-							String eventProject, 	   String eventSession, String eventReport,
-							String eventFeedbackByCCG, String createEmployeeId) {
+	public int registReport(Report report) {
 		//SQL文作成
 		String sql = "INSERT INTO event (event_client_id, 		  event_contact,  event_date,    event_start_time,"
 									  + "event_end_time, 		  event_location, event_member,  event_sales_employee_id,"
@@ -176,10 +159,20 @@ public class ReportDao {
 									  + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
 		//?の箇所を置換するデータの配列を定義
-		Object[] param = { clientId, 		   contactName,   eventDate,    eventStartTime,
-						   eventEndTime, 	   eventLocation, eventMember,  ccgId,
-						   createEmployeeId,   eventProject,  eventSession, eventReport,
-						   eventFeedbackByCCG, createDate };
+		Object[] param = {report.getClientId(),
+						  report.getContactName(),
+						  report.getEventDate(),
+						  report.getEventStartTime(),
+						  report.getEventEndTime(),
+						  report.getEventLocation(),
+						  report.getEventMember(),
+						  report.getCcgId(),
+						  report.getCreateEmployeeId(),
+						  report.getEventProject(),
+						  report.getEventSession(),
+						  report.getEventReport(),
+						  report.getEventFeedbackByCCG(),
+						  report.getCreateDate()};
 
 		//クエリを実行
 		int result = jdbcTemplate.update(sql, param);
@@ -190,24 +183,10 @@ public class ReportDao {
 
 	/**
 	 * 報告書編集をする
-	 * @param eventId				編集する報告書IDのString
-	 * @param eventDate 			編集する面談日のString
-	 * @param eventStartTime 		編集する面談開始時間のString
-	 * @param eventEndTime 			編集する面談終了時間のString
-	 * @param createDate 			編集する報告日のString
-	 * @param contactName 			編集する担当者名のString
-	 * @param eventMember 			編集する面談参加者のString
-	 * @param eventLocation 		編集する面談場所のString
-	 * @param eventProject 			編集する案件概要のString
-	 * @param eventSession 			編集する質疑応答のString
-	 * @param eventReport 			編集する考察のString
-	 * @param eventFeedbackByCCG 	編集するCCG評価のString
-	 * @return result 				実行件数を返す
+	 * @param report reportオブジェクト
+	 * @return result 実行件数を返す
 	 */
-	public int updateReport(String eventId,		 String eventDate, 	   String eventStartTime,
-							String eventEndTime, String createDate,    String contactName,
-							String eventMember,  String eventLocation, String eventProject,
-							String eventSession, String eventReport,   String eventFeedbackByCCG) {
+	public int updateReport(Report report) {
 		//SQL文作成
 		String sql = "UPDATE event SET event_contact = ?,     	 event_date = ?,     event_start_time = ?,"
 									+ "event_end_time = ?, 	  	 event_location = ?, event_member = ?,"
@@ -216,9 +195,18 @@ public class ReportDao {
 									+ "WHERE event_id = ?";
 
 		//?の箇所を置換するデータの配列を定義
-		Object[] param = { contactName,   eventDate, 		  eventStartTime, eventEndTime,
-						   eventLocation, eventMember, 		  eventProject,   eventSession,
-						   eventReport,   eventFeedbackByCCG, createDate, 	  eventId };
+		Object[] param = {report.getContactName(),
+						  report.getEventDate(),
+						  report.getEventStartTime(),
+						  report.getEventEndTime(),
+						  report.getEventLocation(),
+						  report.getEventMember(),
+						  report.getEventProject(),
+						  report.getEventSession(),
+						  report.getEventReport(),
+						  report.getEventFeedbackByCCG(),
+						  report.getCreateDate(),
+						  report.getEventId()};
 
 		//クエリを実行
 		int result = jdbcTemplate.update(sql, param);
