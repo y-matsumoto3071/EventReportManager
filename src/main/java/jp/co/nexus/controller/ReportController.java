@@ -93,11 +93,6 @@ public class ReportController {
 	@PostMapping("/create")
 	public String reportCreate(@ModelAttribute Report report, Model model,
 							   RedirectAttributes attr) {
-		//各項目をフラッシュスコープに保存
-		attr.addFlashAttribute("createEmployeeId", report.getCreateEmployeeId());
-		attr.addFlashAttribute("ccgId", report.getCcgId());
-		attr.addFlashAttribute("clientId", report.getClientId());
-
 		//returnで返す画面を格納する変数
 		String res = "";
 
@@ -118,11 +113,13 @@ public class ReportController {
 				attr.addFlashAttribute("message", "適切な数値を入力してください。");
 				res = "redirect:/report/create";
 			}else {
-				attr.addFlashAttribute("clientName", clientResult);
-				attr.addFlashAttribute("createEmployee", createResult);
+				report.setClientName(clientResult);
+				report.setCreateEmployee(createResult);
 				res = "redirect:/report/edit";
 			}
 		}
+		//reportオブジェクトをフラッシュスコープに保存
+		attr.addFlashAttribute("report", report);
 		return res;
 	}
 
