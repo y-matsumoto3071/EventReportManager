@@ -142,33 +142,12 @@ public class ReportService {
 
 	/**
 	 * 報告書新規登録をする
-	 * @param ccgId 				登録する営業担当IDのString
-	 * @param eventDate 			登録する面談日のString
-	 * @param eventStartTime 		登録する面談開始時間のString
-	 * @param eventEndTime 			登録する面談終了時間のString
-	 * @param createDate 			登録する報告日のString
-	 * @param clientId 				登録する顧客IDのString
-	 * @param contactName 			登録する担当者名のString
-	 * @param eventMember 			登録する面談参加者のString
-	 * @param eventLocation 		登録する面談場所のString
-	 * @param eventProject 			登録する案件概要のString
-	 * @param eventSession 			登録する質疑応答のString
-	 * @param eventReport 			登録する考察のString
-	 * @param eventFeedbackByCCG 	登録するCCG評価のString
-	 * @param createEmployeeId 		登録する報告者IDのString
-	 * @return message 				登録完了メッセージ
+	 * @param report reportオブジェクト
+	 * @return message 登録完了メッセージ
 	 */
-	public String registReport(String ccgId, 			  String eventDate,    String eventStartTime,
-							   String eventEndTime,		  String createDate,   String clientId,
-							   String contactName, 		  String eventMember,  String eventLocation,
-							   String eventProject, 	  String eventSession, String eventReport,
-							   String eventFeedbackByCCG, String createEmployeeId) {
+	public String registReport(Report report) {
 
-		int result = dao.registReport(ccgId, 			  eventDate, 		eventStartTime,
-									  eventEndTime, 	  createDate, 		clientId,
-						 			  contactName,		  eventMember, 		eventLocation,
-						 			  eventProject, 	  eventSession,		eventReport,
-						 			  eventFeedbackByCCG, createEmployeeId);
+		int result = dao.registReport(report);
 		//メッセージ文言を格納する変数
 		String message = "";
 

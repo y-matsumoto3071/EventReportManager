@@ -187,23 +187,8 @@ public class ReportController {
 			attr.addFlashAttribute("eventId", report.getEventId());
 		}
 
-		//各項目をフラッシュスコープに保存
-		attr.addFlashAttribute("clientId", report.getClientId());
-		attr.addFlashAttribute("ccgId", report.getCcgId());
-		attr.addFlashAttribute("createEmployeeId", report.getCreateEmployeeId());
-		attr.addFlashAttribute("eventDate", report.getEventDate());
-		attr.addFlashAttribute("eventStartTime", report.getEventStartTime());
-		attr.addFlashAttribute("eventEndTime", report.getEventEndTime());
-		attr.addFlashAttribute("createDate", report.getCreateDate());
-		attr.addFlashAttribute("createEmployee", report.getCreateEmployee());
-		attr.addFlashAttribute("clientName", report.getClientName());
-		attr.addFlashAttribute("contactName", report.getContactName());
-		attr.addFlashAttribute("eventMember", report.getEventMember());
-		attr.addFlashAttribute("eventLocation", report.getEventLocation());
-		attr.addFlashAttribute("eventProject", report.getEventProject());
-		attr.addFlashAttribute("eventSession", report.getEventSession());
-		attr.addFlashAttribute("eventReport", report.getEventReport());
-		attr.addFlashAttribute("eventFeedbackByCCG", report.getEventFeedbackByCCG());
+		//フォームをフラッシュスコープに保存
+		attr.addFlashAttribute("report", report);
 
 		//returnで返す画面を格納する変数
 		String res = "";
@@ -247,20 +232,7 @@ public class ReportController {
 
 		if(report.getEventId().isEmpty()){
 			//報告書新規登録
-			String message = reportService.registReport(report.getCcgId(),
-													    report.getEventDate(),
-													    report.getEventStartTime(),
-													    report.getEventEndTime(),
-													    report.getCreateDate(),
-													    report.getClientId(),
-													    report.getContactName(),
-													    report.getEventMember(),
-													    report.getEventLocation(),
-													    report.getEventProject(),
-													    report.getEventSession(),
-													    report.getEventReport(),
-													    report.getEventFeedbackByCCG(),
-													    report.getCreateEmployeeId());
+			String message = reportService.registReport(report);
 			attr.addFlashAttribute("message", message);
 		}else {
 			//報告書更新
