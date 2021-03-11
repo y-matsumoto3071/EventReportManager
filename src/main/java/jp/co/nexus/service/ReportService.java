@@ -191,7 +191,7 @@ public class ReportService {
 
 		//daoでreturnされた実行件数が１の場合、正しく更新されているため、編集完了メッセージを代入する
 		if(result == 1) {
-			message = "編集が完了しました。";
+			message = "更新が完了しました。";
 		}
 
 		return message;

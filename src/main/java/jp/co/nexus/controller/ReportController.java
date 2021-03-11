@@ -219,8 +219,8 @@ public class ReportController {
 			//報告書更新
 			String message = reportService.updateReport(report);
 			attr.addFlashAttribute("message", message);
+			eventId = report.getEventId();
 		}
-		return "redirect:/report/list";
 		return "redirect:/report/browse?id="+eventId;
 	}
 
