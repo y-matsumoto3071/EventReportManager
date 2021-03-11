@@ -16,7 +16,7 @@
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
 
     <h1>面談報告書新規作成</h1>
-    <form class="mt-5" action="/report/create" method="post">
+    <form class="mt-5" action="/report/create" method="post" th:object="${report}">
       <div class="text-danger" th:text="${message}"></div>
       <div class="row">
         <div class="col-md-6">
@@ -25,7 +25,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-default">顧客IDを入力</span>
             </div>
-            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default" min="1" name="clientId" th:value="${clientId}">
+            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default" min="1" name="clientId" th:value="*{clientId}">
           </div>
           <div class="overflow-auto" style="height:355px;">
             <table class="table table-sm table-striped">
@@ -50,13 +50,13 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-default">社員IDを入力：CCG担当</span>
             </div>
-            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default" min="1" name="ccgId" th:value="${ccgId}">
+            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default" min="1" name="ccgId" th:value="*{ccgId}">
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="inputGroup-sizing-default">社員IDを入力：作成者</span>
             </div>
-            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default" name="createEmployeeId" th:value="${createEmployeeId}">
+            <input type="number" class="form-control" aria-describedby="inputGroup-sizing-default" name="createEmployeeId" th:value="*{createEmployeeId}">
           </div>
           <div class="overflow-auto" style="height:300px;">
             <table class="table table-sm table-striped">

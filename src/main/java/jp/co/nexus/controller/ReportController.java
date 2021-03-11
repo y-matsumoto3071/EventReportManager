@@ -93,11 +93,6 @@ public class ReportController {
 	@PostMapping("/create")
 	public String reportCreate(@ModelAttribute Report report, Model model,
 							   RedirectAttributes attr) {
-		//各項目をフラッシュスコープに保存
-		attr.addFlashAttribute("createEmployeeId", report.getCreateEmployeeId());
-		attr.addFlashAttribute("ccgId", report.getCcgId());
-		attr.addFlashAttribute("clientId", report.getClientId());
-
 		//returnで返す画面を格納する変数
 		String res = "";
 
@@ -118,11 +113,14 @@ public class ReportController {
 				attr.addFlashAttribute("message", "適切な数値を入力してください。");
 				res = "redirect:/report/create";
 			}else {
-				attr.addFlashAttribute("clientName", clientResult);
-				attr.addFlashAttribute("createEmployee", createResult);
+				report.setClientName(clientResult);
+				report.setCreateEmployee(createResult);
 				res = "redirect:/report/edit";
 			}
 		}
+		//reportオブジェクトをフラッシュスコープに保存
+		attr.addFlashAttribute("report", report);
+
 		return res;
 	}
 
@@ -135,7 +133,7 @@ public class ReportController {
 
 		//報告日（作成日）を取得し、スコープに保存
 		LocalDate createDate = LocalDate.now();
-		model.addAttribute("createDate", createDate);
+		report.setCreateDate(String.valueOf(createDate));
 
 		return "report/report_edit";
 	}
@@ -147,23 +145,8 @@ public class ReportController {
 	@PostMapping("/edit")
 	public String reportEdit(@ModelAttribute Report report, RedirectAttributes attr) {
 
-		//各項目をフラッシュスコープに保存
-		attr.addFlashAttribute("clientId", report.getClientId());
-		attr.addFlashAttribute("ccgId", report.getCcgId());
-		attr.addFlashAttribute("createEmployeeId", report.getCreateEmployeeId());
-		attr.addFlashAttribute("eventDate", report.getEventDate());
-		attr.addFlashAttribute("eventStartTime", report.getEventStartTime());
-		attr.addFlashAttribute("eventEndTime", report.getEventEndTime());
-		attr.addFlashAttribute("createDate", report.getCreateDate());
-		attr.addFlashAttribute("createEmployee", report.getCreateEmployee());
-		attr.addFlashAttribute("clientName", report.getClientName());
-		attr.addFlashAttribute("contactName", report.getContactName());
-		attr.addFlashAttribute("eventMember", report.getEventMember());
-		attr.addFlashAttribute("eventLocation", report.getEventLocation());
-		attr.addFlashAttribute("eventProject", report.getEventProject());
-		attr.addFlashAttribute("eventSession", report.getEventSession());
-		attr.addFlashAttribute("eventReport", report.getEventReport());
-		attr.addFlashAttribute("eventFeedbackByCCG", report.getEventFeedbackByCCG());
+		//フォームをフラッシュスコープに保存
+		attr.addFlashAttribute("report", report);
 
 		//returnで返す画面を格納する変数
 		String res = "";
@@ -203,24 +186,17 @@ public class ReportController {
 	@PostMapping("/confirm")
 	public String reportConfirm(@ModelAttribute Report report, RedirectAttributes attr) {
 
+		//登録または更新後の遷移先詳細表示URLのIDを格納する変数
+		String eventId;
+
 		//DB登録処理
-		String message = reportService.registReport(report.getCcgId(),
-												    report.getEventDate(),
-												    report.getEventStartTime(),
-												    report.getEventEndTime(),
-												    report.getCreateDate(),
-												    report.getClientId(),
-												    report.getContactName(),
-												    report.getEventMember(),
-												    report.getEventLocation(),
-												    report.getEventProject(),
-												    report.getEventSession(),
-												    report.getEventReport(),
-												    report.getEventFeedbackByCCG(),
-												    report.getCreateEmployeeId());
+		String message = reportService.registReport(report);
 		attr.addFlashAttribute("message", message);
 
-		return "redirect:/report/list";
+		//最後に登録された報告書IDを取得
+		eventId = reportService.searchLastReport();
+
+		return "redirect:/report/browse?id="+eventId;
 	}
 
 	/**
