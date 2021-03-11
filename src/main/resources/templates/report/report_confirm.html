@@ -16,6 +16,7 @@
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <p>内容を確認して、問題がなければ登録ボタンを押下してください。</p>
     <form class="form-group" action="/report/confirm" method="post" th:object="${report}">
+    <input type="hidden" name="eventId" th:value="*{eventId}">
     <input type="hidden" name="clientId" th:value="*{clientId}">
     <input type="hidden" name="ccgId" th:value="*{ccgId}">
     <input type="hidden" name="createEmployeeId" th:value="*{createEmployeeId}">
@@ -62,7 +63,8 @@
       <textarea id="eventFeedbackByCCG" class="form-control" name="eventFeedbackByCCG" th:text="*{eventFeedbackByCCG}" readonly></textarea>
       <div class="row">
         <p class="mt-5 ml-3">
-          <button type="submit" class="btn btn-outline-primary">登録</button>
+          <button  th:if="!*{eventId}or*{eventId}==''" type="submit" class="btn btn-outline-primary">登録</button>
+          <button  th:if="*{eventId}and*{eventId}!=''" type="submit" class="btn btn-outline-primary">編集</button>
           <!-- 【障害（バグ）】ブラウザバックした際、/createで入力した値が保持されないことを確認。要対処。 -->
           <button type="button" class="btn btn-outline-primary" onclick="location.href='javascript:history.back();'">戻る</button>
           <button type="button" class="btn btn-outline-primary" onclick="location.href='/report/list'">キャンセル</button>

@@ -146,6 +146,59 @@ public class ReportService {
 	}
 
 	/**
+	 * 報告書編集をする
+	 * @param report reportオブジェクト
+	 * @return message 編集完了メッセージ
+	 */
+	public String updateReport(Report report) {
+
+		int result = dao.updateReport(report);
+		//メッセージ文言を格納する変数
+		String message = "";
+
+		//daoでreturnされた実行件数が１の場合、正しく更新されているため、編集完了メッセージを代入する
+		if(result == 1) {
+			message = "更新が完了しました。";
+		}
+
+		return message;
+	}
+
+	/**
+	 * 報告書IDで指定された報告書情報を返す
+	 * @param eventId 抽出対象の報告書IDのInteger
+	 * @return reportMap 抽出対象のMap
+	 */
+	public Report searchEditReport(Integer eventId){
+		Map<String, Object> map;
+		Report report = new Report();
+		try {
+			map = dao.searchEditReport(eventId);
+
+			report.setCreateEmployeeId(String.valueOf(map.get("event_entry_employee_id")));
+			report.setCcgId(String.valueOf(map.get("event_sales_employee_id")));
+			report.setEventId(String.valueOf(map.get("event_id")));
+			report.setEventDate(String.valueOf(map.get("event_date")));
+			report.setEventStartTime(String.valueOf(map.get("event_start_time")));
+			report.setEventEndTime(String.valueOf(map.get("event_end_time")));
+			report.setCreateEmployee(String.valueOf(map.get("employee_name")));
+			report.setClientId(String.valueOf(map.get("client_id")));
+			report.setClientName(String.valueOf(map.get("client_name")));
+			report.setContactName(String.valueOf(map.get("event_contact")));
+			report.setEventMember(String.valueOf(map.get("event_member")));
+			report.setEventLocation(String.valueOf(map.get("event_location")));
+			report.setEventProject(String.valueOf(map.get("event_project")));
+			report.setEventSession(String.valueOf(map.get("event_session")));
+			report.setEventReport(String.valueOf(map.get("event_report")));
+			report.setEventFeedbackByCCG(String.valueOf(map.get("event_feedback_byccg")));
+
+		}catch(EmptyResultDataAccessException e){
+			report = null;
+		}
+		return report;
+	}
+
+	/**
 	 * 指定された報告書を論理削除する
 	 * @param r_id 削除対象の報告書IDnoString配列
 	 * @return result 削除件数

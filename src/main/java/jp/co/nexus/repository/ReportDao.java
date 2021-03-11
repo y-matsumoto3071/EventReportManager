@@ -158,6 +158,64 @@ public class ReportDao {
 	}
 
 	/**
+	 * 報告書編集をする
+	 * @param report reportオブジェクト
+	 * @return result 実行件数を返す
+	 */
+	public int updateReport(Report report) {
+		//SQL文作成
+		String sql = "UPDATE event SET event_contact = ?,     	 event_date = ?,     event_start_time = ?,"
+									+ "event_end_time = ?, 	  	 event_location = ?, event_member = ?,"
+									+ "event_project = ?,  	  	 event_session = ?,  event_report = ?,"
+									+ "event_feedback_byccg = ?, updatedate = ?"
+									+ "WHERE event_id = ?";
+
+		//?の箇所を置換するデータの配列を定義
+		Object[] param = {report.getContactName(),
+						  report.getEventDate(),
+						  report.getEventStartTime(),
+						  report.getEventEndTime(),
+						  report.getEventLocation(),
+						  report.getEventMember(),
+						  report.getEventProject(),
+						  report.getEventSession(),
+						  report.getEventReport(),
+						  report.getEventFeedbackByCCG(),
+						  report.getCreateDate(),
+						  report.getEventId()};
+
+		//クエリを実行
+		int result = jdbcTemplate.update(sql, param);
+
+		//実行結果を返す
+		return result;
+	}
+
+	/**
+	 * 指定された状態区分=1(編集可能状態)の面談報告書を抽出するSQLを実行する
+	 * @param eventId 抽出対象の報告書IDのInteger
+	 * @return reportMap 抽出結果のMap
+	 */
+	public Map<String, Object> searchEditReport(Integer eventId) throws EmptyResultDataAccessException {
+
+		//SQL文作成
+		String sql = "SELECT * FROM event, client, employee WHERE "
+				   + "event.event_id = ? AND "
+				   + "client.client_id = event_client_id AND "
+				   + "employee.employee_id = event_entry_employee_id "
+				   + "AND event_status = 1";
+
+		//?の箇所を置換するデータの配列を定義
+		Object[] param = { eventId };
+
+		//クエリを実行
+		Map<String, Object> reportMap = jdbcTemplate.queryForMap(sql, param);
+
+		//取得したデータを返す
+		return reportMap;
+	}
+
+	/**
 	 * 指定された報告書を論理削除するSQLを実行する
 	 * @param r_id 削除対象の報告書IDのString配列
 	 * @return result 削除件数

@@ -127,19 +127,38 @@ public class ReportController {
 	/**
 	 * RC-010-020 新規登録入力内容妥当性判定1
 	 * 入力内容判定がOKだった場合の画面遷移先
+	 *
+	 * RE-010-010 報告書編集画面遷移
+	 * DB登録済みの状態区分=1の指定された報告書IDの編集画面を表示する
 	 */
 	@GetMapping("/edit")
-	public String reportEdit(@ModelAttribute Report report,Model model) {
+	public String reportEdit(@ModelAttribute Report report,
+							 @RequestParam(name = "id", defaultValue = "") Integer r_id,
+							 Model model) {
+		//returnで返す画面を格納する変数
+		String res = "report/report_edit";
+
+		//編集時
+		if(r_id != null) {
+			report = reportService.searchEditReport(r_id);
+			if(report == null) {
+				//不正パラメータ入力時は一覧表示画面にリダイレクト
+				res = "redirect:/report/list";
+			}else {
+				model.addAttribute("report", report);
+			}
+		}
 
 		//報告日（作成日）を取得し、スコープに保存
 		LocalDate createDate = LocalDate.now();
 		report.setCreateDate(String.valueOf(createDate));
 
-		return "report/report_edit";
+		return res;
 	}
 
 	/**
 	 * RC-020-010 新規登録入力内容妥当性判定2
+	 * RE-010-020 編集内容妥当性判定
 	 * 各項目エラーチェック
 	 */
 	@PostMapping("/edit")
@@ -173,6 +192,7 @@ public class ReportController {
 
 	/**
 	 * RC-020-010 新規登録入力内容妥当性判定2
+	 * RE-010-020 編集内容妥当性判定
 	 * 入力内容判定がOKだった場合の画面遷移先
 	 */
 	@GetMapping("/confirm")
@@ -182,6 +202,7 @@ public class ReportController {
 
 	/**
 	 * RC-030-010 報告書入力内容DB登録
+	 * RE-010-030 報告書編集内容DB登録
 	 */
 	@PostMapping("/confirm")
 	public String reportConfirm(@ModelAttribute Report report, RedirectAttributes attr) {
@@ -189,12 +210,19 @@ public class ReportController {
 		//登録または更新後の遷移先詳細表示URLのIDを格納する変数
 		String eventId;
 
-		//DB登録処理
-		String message = reportService.registReport(report);
-		attr.addFlashAttribute("message", message);
+		if(report.getEventId().isEmpty()) {
+			//DB登録処理
+			String message = reportService.registReport(report);
+			attr.addFlashAttribute("message", message);
 
-		//最後に登録された報告書IDを取得
-		eventId = reportService.searchLastReport();
+			//最後に登録された報告書IDを取得
+			eventId = reportService.searchLastReport();
+		}else {
+			//報告書更新
+			String message = reportService.updateReport(report);
+			attr.addFlashAttribute("message", message);
+			eventId = report.getEventId();
+		}
 
 		return "redirect:/report/browse?id="+eventId;
 	}
