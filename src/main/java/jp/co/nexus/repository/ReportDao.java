@@ -190,10 +190,8 @@ public class ReportDao {
 		//SQL文作成
 		String sql = "SELECT MAX(event_id) FROM event WHERE event_status IN(1,2)";
 
-
 		//クエリを実行
 		Map<String, Object> map = jdbcTemplate.queryForMap(sql);
-		System.out.println("aa"+map.get("MAX(event_id)"));
 
 		//取得したデータを返す
 		return map;
