@@ -239,4 +239,21 @@ public class ReportDao {
 		return result;
 	}
 
+	/**
+	 * 最後に登録された報告書を取得する
+	 * @param なし
+	 * @return 取得した報告書のMap
+	 */
+	public Map<String, Object> searchLastReport() {
+
+		//SQL文作成
+		String sql = "SELECT * FROM event WHERE event_id = (SELECT LAST_INSERT_ID())";
+
+		//クエリを実行
+		Map<String, Object> map = jdbcTemplate.queryForMap(sql);
+
+		//取得したデータを返す
+		return map;
+	}
+
 }

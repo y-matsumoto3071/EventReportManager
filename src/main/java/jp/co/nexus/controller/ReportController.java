@@ -205,16 +205,23 @@ public class ReportController {
 	@PostMapping("/confirm")
 	public String reportConfirm(@ModelAttribute Report report, RedirectAttributes attr) {
 
+		//登録または更新後の遷移先詳細表示URLのIDを格納する変数
+		String eventId;
+
 		if(report.getEventId().isEmpty()){
 			//報告書新規登録
 			String message = reportService.registReport(report);
 			attr.addFlashAttribute("message", message);
+
+			//最後に登録された報告書IDを取得
+			eventId = reportService.searchLastReport();
 		}else {
 			//報告書更新
 			String message = reportService.updateReport(report);
 			attr.addFlashAttribute("message", message);
 		}
 		return "redirect:/report/list";
+		return "redirect:/report/browse?id="+eventId;
 	}
 
 	/**

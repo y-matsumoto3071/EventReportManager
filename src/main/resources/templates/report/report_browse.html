@@ -16,6 +16,7 @@
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <h1>面談内容報告書</h1>
     <form class="form-group">
+    <div class="text-danger" th:text="${message}"></div>
     <input type="hidden" th:value="${map.event_id}">
     <input type="hidden" th:value="${map.event_client_id}">
     <input type="hidden" th:value="${map.event_sales_employee_id}">

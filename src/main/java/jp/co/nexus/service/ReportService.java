@@ -207,5 +207,16 @@ public class ReportService {
 		return result;
 	}
 
+	/**
+	 * 最後に登録された報告書IDを取得する
+	 * @param なし
+	 * @return eventId 取得した報告書ID
+	 */
+	public String searchLastReport() {
+		Map<String, Object> map = dao.searchLastReport();
+		String eventId = String.valueOf(map.get("event_id"));
+		return eventId;
+	}
+
 
 }
