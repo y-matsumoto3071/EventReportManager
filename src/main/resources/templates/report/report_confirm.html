@@ -16,10 +16,10 @@
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <p>内容を確認して、問題がなければ登録ボタンを押下してください。</p>
     <form class="form-group" action="/report/confirm" method="post" th:object="${report}">
-    <input type="text" name="eventId" th:value="*{eventId}">
-    <input type="text" name="clientId" th:value="*{clientId}">
-    <input type="text" name="ccgId" th:value="*{ccgId}">
-    <input type="text" name="createEmployeeId" th:value="*{createEmployeeId}">
+    <input type="hidden" name="eventId" th:value="*{eventId}">
+    <input type="hidden" name="clientId" th:value="*{clientId}">
+    <input type="hidden" name="ccgId" th:value="*{ccgId}">
+    <input type="hidden" name="createEmployeeId" th:value="*{createEmployeeId}">
       <div class="mt-2 row">
         <div class="col-md-6 form-inline">
           <label class="col-form-label form-check-inline" for="eventDate">面談日</label>
