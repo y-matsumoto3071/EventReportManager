@@ -138,20 +138,23 @@ public class ReportController {
 		//returnで返す画面を格納する変数
 		String res = "report/report_edit";
 
+		//報告日（作成日）を取得
+		LocalDate createDate = LocalDate.now();
+
+		//新規登録時
+		if(r_id == null) {
+			report.setCreateDate(String.valueOf(createDate));
 		//編集時
-		if(r_id != null) {
+		}else {
 			report = reportService.searchEditReport(r_id);
 			if(report == null) {
 				//不正パラメータ入力時は一覧表示画面にリダイレクト
 				res = "redirect:/report/list";
 			}else {
 				model.addAttribute("report", report);
+				report.setCreateDate(String.valueOf(createDate));
 			}
 		}
-
-		//報告日（作成日）を取得し、スコープに保存
-		LocalDate createDate = LocalDate.now();
-		report.setCreateDate(String.valueOf(createDate));
 
 		return res;
 	}
