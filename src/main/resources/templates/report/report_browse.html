@@ -15,9 +15,9 @@
 <div th:replace="~{block/header::header}"></div>
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <h1>面談内容報告書</h1>
-    <form class="form-group">
+    <form class="form-group" action="/report/findings" method="post">
     <div class="text-danger" th:text="${message}"></div>
-    <input type="hidden" th:value="${map.event_id}">
+    <input type="hidden" name="eventId" th:value="${map.event_id}">
     <input type="hidden" th:value="${map.event_client_id}">
     <input type="hidden" th:value="${map.event_sales_employee_id}">
     <input type="hidden" th:value="${map.event_entry_employee_id}">
@@ -70,22 +70,24 @@
         </p>
       </div>
     <!-- ↓↓ステータスが承認前の場合のみ表示↓↓ -->
+    <div th:if="${map.event_status}==1">
     <div class="mt-2 row">
         <div class="col-md-6  form-inline">
           <label class="col-form-label" for="adminID">管理者ID</label>
-          <input class="ml-3 form-control" type="text" id="adminID">
+          <input class="ml-3 form-control" type="number" id="adminID" name="passwordId" th:value="${passwordId}">
         </div>
         <div class="col-md-6  form-inline">
           <label class="col-form-label" for="adminPW">管理者PW</label>
-          <input class="ml-3 form-control" type="password" id="adminPW">
+          <input class="ml-3 form-control" type="password" id="adminPW" name="passwordBody" th:value="${passwordBody}">
         </div>
       </div>
       <label for="eventFeedbackContent">管理者所見</label>
-      <textarea id="eventFeedbackContent" class="form-control" cols="85" rows="5"></textarea>
+      <textarea id="eventFeedbackContent" class="form-control" cols="85" rows="5" name="eventFeedbackContent" th:text="${eventFeedbackContent}"></textarea>
       <p class="mt-5">
-        <button type="button" class="btn btn-outline-primary">承認</button>
-        <button type="button" class="btn btn-outline-primary">差し戻し</button>
+        <button type="submit" class="btn btn-outline-primary" name = "approvalResult" value="ok">承認</button>
+        <button type="submit" class="btn btn-outline-primary" name = "approvalResult" value="ng">差し戻し</button>
       </p>
+      </div>
     <!-- ↑↑ステータスが承認前の場合のみ表示↑↑ -->
   </form>
   </div>

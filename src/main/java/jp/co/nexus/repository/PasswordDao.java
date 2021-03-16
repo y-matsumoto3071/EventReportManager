@@ -26,7 +26,7 @@ public class PasswordDao {
 	public List<Map<String, Object>> searchPassword() {
 
 		// SQL文作成
-		String sql = "SELECT password_id, password_body from password "
+		String sql = "SELECT * from password "
 				+ "WHERE curdate() BETWEEN startdate AND enddate";
 
 		// クエリを実行

@@ -255,4 +255,48 @@ public class ReportDao {
 		return map;
 	}
 
+	/**
+	 * 報告書所見返信をする(承認時)
+	 * @param r_id 取得した報告書IDのString
+	 * @param passId 登録する所見返信IDのString
+	 * @param feedback 登録する所見のString
+	 * @return 実行件数
+	 */
+	public int findingsOk(String r_id, String passId, String feedback) {
+		//SQL文作成
+		String sql = "UPDATE event SET event_feedback_content = ?, event_feedback_employee_id = ?,"
+				   + "event_status = 2 WHERE event_id = ?";
+
+		//?の箇所を置換するデータの配列を定義
+		Object[] param = { feedback, passId, r_id };
+
+		//クエリを実行
+		int result = jdbcTemplate.update(sql, param);
+
+		//実行件数を返す
+		return result;
+	}
+
+	/**
+	 * 報告書所見返信をする(差し戻し時)
+	 * @param r_id 取得した報告書IDのString
+	 * @param passId 登録する所見返信IDのString
+	 * @param feedback 登録する所見のString
+	 * @return 実行件数
+	 */
+	public int findingsNg(String r_id, String passId, String feedback) {
+		//SQL文作成
+		String sql = "UPDATE event SET event_feedback_content = ?, event_feedback_employee_id = ? "
+				   + "WHERE event_id = ?";
+
+		//?の箇所を置換するデータの配列を定義
+		Object[] param = { feedback, passId, r_id };
+
+		//クエリを実行
+		int result = jdbcTemplate.update(sql, param);
+
+		//実行件数を返す
+		return result;
+	}
+
 }

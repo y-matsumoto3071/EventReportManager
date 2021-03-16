@@ -45,4 +45,29 @@ public class PasswordService{
 		// 取得したパスワードを返す
 		return pass;
 	}
+
+	/**
+	 * 報告書所見返信時、入力されたIDとパスワードが適切か判定
+	 * @param passId 入力されたIDのString
+	 * @param pass 入力されたパスワードのString
+	 * @return 判定結果のString
+	 */
+	public String matchPassword(String passId, String pass) {
+
+		//有効期限内パスワードを全件取得
+		List<Map<String, Object>> list = passwordDao.searchPassword();
+
+		//returnで返すString変数
+		String message = "管理者IDまたはパスワードが間違っています。";
+
+		for(Map<String, Object> map : list) {
+			if(String.valueOf(map.get("password_id")).equals(passId) &&
+			   String.valueOf(map.get("password_body")).equals(pass) &&
+			   String.valueOf(map.get("password_type")).equals("1")) {
+				message = "OK";
+				break;
+			}
+		}
+		return message;
+	}
 }

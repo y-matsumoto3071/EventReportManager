@@ -219,5 +219,32 @@ public class ReportService {
 		return eventId;
 	}
 
+	/**
+	 * 報告書所見返信をする
+	 * @param r_id 取得した報告書IDのString
+	 * @param passId 登録する所見返信IDのString
+	 * @param feedback 登録する所見のString
+	 * @param approval 承認/差し戻し判定String
+	 * @return 更新結果メッセージ
+	 */
+	public String findings(String r_id, String passId, String feedback, String approval) {
+		int result;
+		if(approval.equals("ok")) {
+			//承認時
+			result = dao.findingsOk(r_id, passId, feedback);
+		}else {
+			//差し戻し時
+			result = dao.findingsNg(r_id, passId, feedback);
+		}
+
+		//returnで返すメッセージ
+		String message = "";
+
+		if(result == 1) {
+			message = "更新が完了しました。";
+		}
+		return message;
+	}
+
 
 }

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jp.co.nexus.model.Report;
 import jp.co.nexus.service.ClientService;
 import jp.co.nexus.service.EmployeeService;
+import jp.co.nexus.service.PasswordService;
 import jp.co.nexus.service.ReportService;
 
 /**
@@ -41,6 +42,9 @@ public class ReportController {
 
 	@Autowired
 	EmployeeService employeeService;
+
+	@Autowired
+	PasswordService passwordService;
 
 	/**
 	 * RL-010-010 報告書一覧表示画面遷移
@@ -246,6 +250,44 @@ public class ReportController {
 		}
 
 		return "redirect:/report/list";
+	}
+
+	/**
+	 * RR-010-010 報告書所見返信
+	 */
+	@PostMapping("/findings")
+	public String findings(@RequestParam("eventId") String r_id,
+						   @RequestParam("passwordId") String passId,
+						   @RequestParam("passwordBody") String pass,
+						   @RequestParam("eventFeedbackContent") String feedback,
+						   @RequestParam("approvalResult") String approval,
+						   RedirectAttributes attr) {
+		//リダイレクト後に表示するメッセージを格納する変数
+		String message;
+
+		//未入力チェック
+		if(passId.isEmpty() || pass.isEmpty() || feedback.isEmpty()) {
+			message = "未入力の項目があります。";
+		}else {
+			//有効パスワードチェック
+			message = passwordService.matchPassword(passId, pass);
+
+			//パスワードチェックがOKだった場合更新処理を実行
+			if(message.equals("OK")) {
+				message = reportService.findings(r_id, passId, feedback, approval);
+			}
+		}
+		//メッセージをスコープに保存
+		attr.addFlashAttribute("message", message);
+
+		//エラーでリダイレクト時は各項目の値をスコープに保存
+		if(!message.equals("更新が完了しました。")) {
+			attr.addFlashAttribute("passwordId", passId);
+			attr.addFlashAttribute("passwordBody", pass);
+			attr.addFlashAttribute("eventFeedbackContent", feedback);
+		}
+
+		return "redirect:/report/browse?id="+r_id;
 	}
 
 }
