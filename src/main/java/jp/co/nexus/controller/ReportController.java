@@ -287,7 +287,7 @@ public class ReportController {
 			attr.addFlashAttribute("eventFeedbackContent", feedback);
 		}
 
-		return "redirect:/report/browse?id="+r_id;
+		return "redirect:/report/list";
 	}
 
 }
