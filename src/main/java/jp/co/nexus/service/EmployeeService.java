@@ -48,7 +48,7 @@ public class EmployeeService{
 				employeeDao.editEmployee(e_name, e_category, e_id);
 
 				//フラッシュスコープに完了メッセージを設定
-				attributeValue = "編集が完了しました。";
+				attributeValue = "更新が完了しました。";
 
 			// 新規登録時
 			} else {
