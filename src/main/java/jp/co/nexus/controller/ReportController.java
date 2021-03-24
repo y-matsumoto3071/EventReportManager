@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.nexus.model.Report;
+import jp.co.nexus.model.ReportSearch;
 import jp.co.nexus.service.ClientService;
 import jp.co.nexus.service.EmployeeService;
 import jp.co.nexus.service.PasswordService;
@@ -51,12 +52,45 @@ public class ReportController {
 	 * 報告書一覧画面に遷移する
 	 */
 	@GetMapping("/list")
-	public String reportList(Model model) {
+	public String reportList(@ModelAttribute ReportSearch reportSearch, Model model) {
 
 		List<Map<String, Object>> list = reportService.searchAll();
 		model.addAttribute("report_list", list);
 
 		return "report/report_list";
+	}
+
+	/**
+	 * RS-010-010 報告書検索
+	 * 入力されたパラメータに応じて検索したデータを報告書一覧画面に表示する
+	 */
+	@RequestMapping(value = "/list", params = "search")
+	public String reportSearch(@ModelAttribute ReportSearch reportSearch,
+								RedirectAttributes attr, Model model) {
+		//returnで返す画面を格納する変数
+		String res = "report/report_list";
+
+		//入力チェック
+		boolean inputCheck = reportSearch.inputCheck(reportSearch);
+
+		if(!inputCheck) {
+			res = "redirect:/report/list";
+			attr.addFlashAttribute("message", "入力不正です。");
+			attr.addFlashAttribute("reportSearch", reportSearch);
+		}else {
+			//検索処理を行い、結果を保存
+			List<Map<String, Object>> list = reportService.searchReport(reportSearch);
+			model.addAttribute("report_list", list);
+
+			//取得結果件数をメッセージで表示
+			if(list.size() == 0) {
+				model.addAttribute("message", "該当する報告書はありません。");
+			}else {
+				model.addAttribute("message", "検索結果：" + list.size() + "件");
+			}
+		}
+
+		return res;
 	}
 
 	/**

@@ -14,7 +14,7 @@
 <div th:replace="~{block/header::header}"></div>
   <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <img src="../img/logo.png" alt="ERM" class="rounded mx-auto d-block">
-    <form class="mb-3" action="/report/list" method="post">
+    <form class="mb-3" action="/report/list" method="post" th:object="${reportSearch}">
     <div class="text-danger" th:text="${message}"></div>
     <p class="mt-3 mb-3">
       <button type="button" class="btn btn-outline-primary" onclick="location.href='/report/create'">新規作成</button>
@@ -23,28 +23,28 @@
       <div class="row form-group">
         <div class="col-10 input-group">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <input class="form-check-input" type="radio" name="s_radio" id="inlineRadio1" value="option1" th:checked="*{s_radio=='option1'}">
             <label class="form-check-label" for="inlineRadio1">顧客検索</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <input class="form-check-input" type="radio" name="s_radio" id="inlineRadio2" value="option2" th:checked="*{s_radio=='option2'}">
             <label class="form-check-label" for="inlineRadio2">社員検索</label>
           </div>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" name="s_keyword" th:value="*{s_keyword}">
         </div>
       </div>
       <div class="row form-group">
         <div class="form-check-inline">
-          <input class="form-check-input ml-3" type="checkbox" id="inlineCheckbox1" value="option1">
+          <input class="form-check-input ml-3" type="checkbox" id="inlineCheckbox1" name="s_dateFilter" th:checked="*{s_dateFilter}">
           <label class="form-check-label" for="inlineCheckbox1">日付フィルター</label>
         </div>
         <div class="form-check-inline">
-          <input class="ml-3 " type="date" id="startDate">
+          <input class="ml-3 " type="date" id="startDate" name="s_startDate" th:value="*{s_startDate}">
           <label class="ml-3 form-check-label" for="endDate">～</label>
-          <input class="ml-3" type="date" id="endDate">
+          <input class="ml-3" type="date" id="endDate" name="s_endDate" th:value="*{s_endDate}">
         </div>
         <div class="form-check-inline">
-          <button type="button" class="ml-3 btn btn-outline-primary">検索</button>
+          <button type="submit" class="ml-3 btn btn-outline-primary" name="search">検索</button>
         </div>
       </div>
     <div class="text-nowrap table-responsive mt-3">

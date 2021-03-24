@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import jp.co.nexus.model.Report;
+import jp.co.nexus.model.ReportSearch;
 import jp.co.nexus.repository.ReportDao;
 
 /**
@@ -244,6 +245,16 @@ public class ReportService {
 			message = "更新が完了しました。";
 		}
 		return message;
+	}
+
+	/**
+	 * 入力されたパラメータの報告書を検索する
+	 * @param reportSearch reportSearch オブジェクト
+	 * @return list 取得結果のList
+	 */
+	public List<Map<String, Object>> searchReport(ReportSearch reportSearch) {
+		List<Map<String, Object>> list = dao.searchReport(reportSearch);
+		return list;
 	}
 
 

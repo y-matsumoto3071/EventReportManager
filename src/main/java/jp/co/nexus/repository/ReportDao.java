@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jp.co.nexus.model.Report;
+import jp.co.nexus.model.ReportSearch;
 
 /**
  * ReportDao.java
@@ -297,6 +298,127 @@ public class ReportDao {
 
 		//実行件数を返す
 		return result;
+	}
+
+	/**
+	 * 報告書検索
+	 * @param reportSearch reportSearchオブジェクト
+	 * @return 取得結果のlist
+	 */
+	public List<Map<String, Object>> searchReport(ReportSearch reportSearch) {
+
+		//SQL文を格納するStringBuilder変数
+		StringBuilder sql = new StringBuilder();
+
+		//パラメータチェック用StringBuilder変数
+		StringBuilder paramCheck = new StringBuilder();
+
+		//全条件同一部分SQL
+		sql.append("SELECT * FROM event, client, employee WHERE client.client_id = event_client_id AND "
+				 + "employee.employee_id = event_entry_employee_id AND event_status IN (1, 2)");
+
+		//日付検索
+		if(reportSearch.isS_dateFilter()) {
+			//日付範囲指定で検索
+			if(!reportSearch.getS_startDate().isEmpty() && !reportSearch.getS_endDate().isEmpty()) {
+				sql.append(" AND event_date BETWEEN ? AND ?");
+				paramCheck.append("a");
+			//日付前部片方選択で検索
+			}else if(!reportSearch.getS_startDate().isEmpty()) {
+				sql.append(" AND event_date BETWEEN ? AND '2500-12-30'");
+				paramCheck.append("b");
+				//日付後部片方選択で検索
+			}else if(!reportSearch.getS_endDate().isEmpty()) {
+				sql.append(" AND event_date BETWEEN '1000-01-01' AND ?");
+				paramCheck.append("c");
+			}
+		}
+
+		//キーワード検索
+		if(reportSearch.getS_radio() != null) {
+			//顧客名で検索
+			if(reportSearch.getS_radio().equals("option1")) {
+				sql.append(" AND client_name LIKE ?");
+				paramCheck.append("1");
+				//社員名で検索
+			}else if(reportSearch.getS_radio().equals("option2")) {
+				sql.append(" AND employee_name LIKE ?");
+				paramCheck.append("2");
+			}
+		}
+
+		//チェック変数をStringBuilderからStringにキャスト
+		String check = paramCheck.toString();
+
+		//returnで返すlist
+		List<Map<String, Object>> list = null;
+
+		//?の箇所を置換するデータの配列を定義
+		Object[] param;
+
+		//組み合わせたSQL文ごとに?の箇所を置換する
+		switch(check){
+			//1顧客名のみで検索, 2社員名のみで検索
+			case "1" :
+			case "2" :
+				param = new Object[1];
+				param[0] = "%" + reportSearch.getS_keyword() + "%";
+				list = jdbcTemplate.queryForList(sql.toString(), param);
+				break;
+
+			//3日付範囲選択で検索
+			case "a" :
+				param = new Object[2];
+				param[0] = reportSearch.getS_startDate();
+				param[1] = reportSearch.getS_endDate();
+				list = jdbcTemplate.queryForList(sql.toString(), param);
+				break;
+
+			//4日付前部片方選択で検索
+			case "b" :
+				param = new Object[1];
+				param[0] = reportSearch.getS_startDate();
+				list = jdbcTemplate.queryForList(sql.toString(), param);
+				break;
+
+			//5日付後部片方選択で検索
+			case "c" :
+				param = new Object[1];
+				param[0] = reportSearch.getS_endDate();
+				list = jdbcTemplate.queryForList(sql.toString(), param);
+				break;
+
+			//6顧客名と日付範囲選択で検索, 9社員名と日付範囲選択で検索
+			case "a1" :
+			case "a2" :
+				param = new Object[3];
+				param[0] = reportSearch.getS_startDate();
+				param[1] = reportSearch.getS_endDate();
+				param[2] = "%" + reportSearch.getS_keyword() + "%";
+				list = jdbcTemplate.queryForList(sql.toString(), param);
+				break;
+
+			//7顧客名と日付前部片方選択で検索, 10社員名と日付前部片方選択で検索
+			case "b1" :
+			case "b2" :
+				param = new Object[2];
+				param[0] = reportSearch.getS_startDate();
+				param[1] = "%" + reportSearch.getS_keyword() + "%";
+				list = jdbcTemplate.queryForList(sql.toString(), param);
+				break;
+
+			//8顧客名と日付後部片方選択で検索, 11社員名と日付後部片方選択で検索
+			case "c1" :
+			case "c2" :
+				param = new Object[2];
+				param[0] = reportSearch.getS_endDate();
+				param[1] = "%" + reportSearch.getS_keyword() + "%";
+				list = jdbcTemplate.queryForList(sql.toString(), param);
+				break;
+		}
+
+		//取得したlistを返す
+		return list;
 	}
 
 }
