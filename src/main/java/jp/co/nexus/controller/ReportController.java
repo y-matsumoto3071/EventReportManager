@@ -75,7 +75,7 @@ public class ReportController {
 
 		if(!inputCheck) {
 			res = "redirect:/report/list";
-			attr.addFlashAttribute("message", "入力不正です。");
+			attr.addFlashAttribute("message", "検索条件が不正です。");
 			attr.addFlashAttribute("reportSearch", reportSearch);
 		}else {
 			//検索処理を行い、結果を保存
