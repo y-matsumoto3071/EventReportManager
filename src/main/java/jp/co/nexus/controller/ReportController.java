@@ -296,6 +296,9 @@ public class ReportController {
 						   @RequestParam("eventFeedbackContent") String feedback,
 						   @RequestParam("approvalResult") String approval,
 						   RedirectAttributes attr) {
+		//returnで返す画面を格納する変数
+		String res = "redirect:/report/browse?id="+r_id;
+
 		//リダイレクト後に表示するメッセージを格納する変数
 		String message;
 
@@ -309,6 +312,7 @@ public class ReportController {
 			//パスワードチェックがOKだった場合更新処理を実行
 			if(message.equals("OK")) {
 				message = reportService.findings(r_id, passId, feedback, approval);
+				res = "redirect:/report/list";
 			}
 		}
 		//メッセージをスコープに保存
@@ -321,7 +325,7 @@ public class ReportController {
 			attr.addFlashAttribute("eventFeedbackContent", feedback);
 		}
 
-		return "redirect:/report/list";
+		return res;
 	}
 
 }
