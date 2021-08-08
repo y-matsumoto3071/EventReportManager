@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +44,8 @@ public class PasswordDao {
 	 */
 	public Map<String, Object> getPassword(int type) {
 
+		Map<String, Object> map = null;
+
 		// SQL文作成
 		String sql = "SELECT password_body from password "
 				+ "WHERE password_type = ? "
@@ -51,8 +54,15 @@ public class PasswordDao {
 		// ？の箇所を置換するデータの配列を定義
 		Object[] param = { type };
 
-		// クエリを実行
-		Map<String, Object> map = jdbcTemplate.queryForMap(sql, param);
+		try {
+			// クエリを実行
+			map = jdbcTemplate.queryForMap(sql, param);
+
+		} catch(IncorrectResultSizeDataAccessException ie) {
+			ie.printStackTrace();
+			System.out.println("パスワードの取得に失敗しました。\n"
+					+ "システム管理者に問い合わせてください。");
+		}
 
 		return map;
 	}

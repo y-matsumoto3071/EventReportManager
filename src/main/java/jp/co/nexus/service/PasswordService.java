@@ -40,7 +40,15 @@ public class PasswordService{
 		String pass = new String();
 
 		Map<String, Object> map = passwordDao.getPassword(type);
-		pass = map.get("password_body").toString();
+		if (map!=null) {
+			// パスワードの取得に成功している場合
+			pass = map.get("password_body").toString();
+
+		} else {
+			// パスワードの取得に失敗している場合
+			pass = null;
+
+		}
 
 		// 取得したパスワードを返す
 		return pass;
