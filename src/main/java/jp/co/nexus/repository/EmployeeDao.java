@@ -64,7 +64,9 @@ public class EmployeeDao {
     public Map<String, Object> searchEmployee(Integer employeeId) {
 
         // SQL文作成
-        String sql = "SELECT * FROM employee WHERE employee_id= ?";
+        String sql = "SELECT * FROM employee "
+        		+ "WHERE employee_id= ? "
+				+ "AND deleteflg != 0;";
 
         // ？の箇所を置換するデータの配列を定義
         Object[] param = {employeeId};
