@@ -40,8 +40,6 @@ public class ReportController {
 	public String reportBrowse(@RequestParam("event_id") Integer eventId, Model model) {
 
 		Report report = reportService.searchReport(eventId);
-		System.out.println("report.eventDate:"+report.getEventDate());
-		System.out.println("report.createDate:"+report.getCreateDate());
 		model.addAttribute("report", report);
 
 		return "report/report_browse";
