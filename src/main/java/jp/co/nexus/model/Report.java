@@ -3,6 +3,8 @@
  */
 package jp.co.nexus.model;
 
+import java.util.Map;
+
 /**
  * 報告書管理機能で使用する面談情報を管理するクラス
  * Report.java
@@ -11,56 +13,25 @@ package jp.co.nexus.model;
  *
  */
 public class Report {
-	// 報告者名ID
-	private String createEmployeeId;
 
-	// 営業担当ID
-	private String ccgId;
-
-	// 面談ID
-	private String eventId;
-
-	// 面談日
-	private String eventDate;
-
-	// 面談開始時間
-	private String eventStartTime;
-
-	// 面談終了時間
-	private String eventEndTime;
-
-	// 報告日
-	private String createDate;
-
-	// 報告者氏名
-	private String createEmployee;
-
-	// 顧客ID
-	private String clientId;
-
-	// 顧客社名
-	private String clientName;
-
-	// 担当者名(敬称略)
-	private String contactName;
-
-	// 面談参加者(敬称略)
-	private String eventMember;
-
-	// 面談場所
-	private String eventLocation;
-
-	// 案件概要
-	private String eventProject;
-
-	// 質疑応答
-	private String eventSession;
-
-	// 考察
-	private String eventReport;
-
-	// CCG評価
-	private String eventFeedbackByCCG;
+	private String createEmployeeId; // 報告者名ID
+	private String ccgId; // 営業担当ID
+	private String eventId; // 面談ID
+	private String eventDate; // 面談日
+	private String eventStartTime; // 面談開始時間
+	private String eventEndTime; // 面談終了時間
+	private String createDate; // 報告日
+	private String createEmployee; // 報告者氏名
+	private String clientId; // 顧客ID
+	private String clientName; // 顧客社名
+	private String contactName; // 担当者名(敬称略)
+	private String eventMember; // 面談参加者(敬称略)
+	private String eventLocation; // 面談場所
+	private String eventProject; // 案件概要
+	private String eventSession; // 質疑応答
+	private String eventReport; // 考察
+	private String eventFeedbackByCCG; // CCG評価
+	private String eventFeedbackContent; // CCG評価
 
 	public String getCcgId() {
 		return ccgId;
@@ -196,6 +167,36 @@ public class Report {
 
 	public void setCreateEmployeeId(String createEmployeeId) {
 		this.createEmployeeId = createEmployeeId;
+	}
+
+	public String getEventFeedbackContent() {
+		return eventFeedbackContent;
+	}
+
+	public void setEventFeedbackContent(String eventFeedbackContent) {
+		this.eventFeedbackContent = eventFeedbackContent;
+	}
+
+	public void setEntity(Map<String, Object> reportMap) {
+		this.createEmployeeId = reportMap.get("event_entry_employee_id").toString();
+		this.ccgId = reportMap.get("event_sales_employee_id").toString();
+		this.eventId = reportMap.get("event_id").toString();
+		this.eventDate = reportMap.get("event_date").toString();
+		this.eventStartTime = reportMap.get("event_start_time").toString();
+		this.eventEndTime = reportMap.get("event_end_time").toString();
+		this.createDate = reportMap.get("createdate").toString().substring(0,10);
+		this.createEmployee = reportMap.get("employee_name").toString();
+		this.clientId = reportMap.get("event_client_id").toString();
+		this.clientName = reportMap.get("client_name").toString();
+		this.contactName = reportMap.get("event_contact").toString();
+		this.eventMember = reportMap.get("event_member").toString();
+		this.eventLocation = reportMap.get("event_location").toString();
+		this.eventProject = reportMap.get("event_project").toString();
+		this.eventSession = reportMap.get("event_session").toString();
+		this.eventReport = reportMap.get("event_report").toString();
+		this.eventFeedbackByCCG = reportMap.get("event_feedback_byccg").toString();
+		this.eventFeedbackContent = reportMap.get("event_feedback_content").toString();
+
 	}
 
 }

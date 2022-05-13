@@ -15,50 +15,50 @@
 <div th:replace="~{block/header::header}"></div>
 <div class="container bg-white shadow-sm border mx-auto py-3 my-3">
     <h1>面談内容報告書</h1>
-    <form class="form-group">
+    <form class="form-group" th:object="${report}">
       <div class="mt-2 row">
         <div class="col-md-6 form-inline">
           <label class="col-form-label form-check-inline" for="eventDate">面談日</label>
-          <input class="ml-2 form-control form-check-inline bg-white" type="date" id="eventDate" readonly>
+          <input class="ml-2 form-control form-check-inline bg-white" type="date" id="eventDate" th:value="*{eventDate}" readonly>
         </div>
         <div class="col-md-6  form-inline">
           <label class="col-form-label" for="eventStartTime">時間</label>
-          <input class="ml-3 form-control bg-white" type="time" id="eventStartTime" readonly>
+          <input class="ml-3 form-control bg-white" type="time" id="eventStartTime" th:value="*{eventStartTime}" readonly>
           <label class="ml-3 col-form-label text-center" for="eventEndTime">～</label>
-          <input class="ml-3 form-control bg-white" type="time" id="eventEndTime" readonly>
+          <input class="ml-3 form-control bg-white" type="time" id="eventEndTime" th:value="*{eventEndTime}" readonly>
         </div>
       </div>
       <div class="mt-2 row">
         <div class="col-md-6  form-inline">
           <label class="col-form-label" for="createDate">報告日</label>
-          <input class="ml-3 form-control bg-white" type="date" id="createDate" value="2020-07-01" readonly>
+          <input class="ml-3 form-control bg-white" type="date" id="createDate" th:value="*{createDate}" readonly>
         </div>
         <div class="col-md-6  form-inline">
           <label class="col-form-label" for="createEmployee">氏名</label>
-          <input class="ml-3 form-control bg-white" type="text" id="createEmployee" readonly>
+          <input class="ml-3 form-control bg-white" type="text" id="createEmployee" th:value="*{createEmployee}" readonly>
         </div>
       </div>
       <h5 class="mt-3">顧客</h5>
       <label class="ml-2" for="clientName">社名</label>
-      <input type="text" id="clientName" class="form-control bg-white" readonly>
+      <input type="text" id="clientName" class="form-control bg-white" th:value="*{clientName}" readonly>
       <label class="ml-2" for="contactName">担当者（敬称略）</label>
-      <input type="text" id="contactName" class="form-control bg-white" readonly>
+      <input type="text" id="contactName" class="form-control bg-white" th:value="*{contactName}" readonly>
       <p class="mt-3">
         <label class="ml-2" for="eventMember">面談参加者（敬称略）</label>
-        <input type="text" id="eventMember" class="form-control bg-white" readonly>
+        <input type="text" id="eventMember" class="form-control bg-white" th:value="*{eventMember}" readonly>
         <label class="ml-2" for="eventLocation">面談場所</label>
-        <input type="text" id="eventLocation" class="form-control bg-white" readonly>
+        <input type="text" id="eventLocation" class="form-control bg-white" th:value="*{eventLocation}" readonly>
       </p>
       <label class="ml-2" for="eventProject">案件概要</label>
-      <textarea id="eventProject" class="form-control bg-white" cols="85" rows="5" readonly></textarea>
+      <textarea id="eventProject" class="form-control bg-white" cols="85" rows="5" th:text="*{eventProject}" readonly></textarea>
       <label class="ml-2" for="eventSession">質疑応答</label>
-      <textarea id="eventSession" class="form-control bg-white" cols="85" rows="5" readonly></textarea>
+      <textarea id="eventSession" class="form-control bg-white" cols="85" rows="5" th:text="*{eventSession}" readonly></textarea>
       <label class="ml-2" for="eventReport">考察</label>
-      <textarea id="eventReport" class="form-control bg-white" cols="85" rows="5" readonly></textarea>
+      <textarea id="eventReport" class="form-control bg-white" cols="85" rows="5" th:text="*{eventReport}" readonly></textarea>
       <label class="ml-2" for="eventFeedbackByCCG">CCG担当からの評価</label>
-      <textarea id="eventFeedbackByCCG" class="form-control bg-white" cols="85" rows="3" readonly></textarea>
+      <textarea id="eventFeedbackByCCG" class="form-control bg-white" cols="85" rows="3" th:text="*{eventFeedbackByCCG}" readonly></textarea>
       <label class="ml-2" for="eventFeedbackContent">管理者所見</label>
-      <textarea id="eventFeedbackContent" class="form-control bg-white" cols="85" rows="3" readonly></textarea>
+      <textarea id="eventFeedbackContent" class="form-control bg-white" cols="85" rows="3" th:text="*{eventFeedbackContent}" readonly></textarea>
       <div class="row">
         <p class="mt-5">
           <button type="button" class="ml-3 btn btn-outline-primary">一覧に戻る</button>
