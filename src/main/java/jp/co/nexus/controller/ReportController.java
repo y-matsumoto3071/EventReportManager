@@ -38,7 +38,7 @@ public class ReportController {
 	 * 報告書詳細画面に遷移する
 	 */
 	@GetMapping("/browse")
-	public String reportBrowse(@RequestParam("event_id") Integer eventId, Model model) {
+	public String reportBrowse(@RequestParam("eventId") Integer eventId, Model model) {
 
 		Report report = reportService.searchReport(eventId);
 		model.addAttribute("report", report);
@@ -81,7 +81,7 @@ public class ReportController {
 		//登録または更新後の遷移先詳細表示URLのIDを格納する変数
 		String eventId = "1";
 		
-		return "redirect:/report/browse?event_id=" + eventId;
+		return "redirect:/report/browse?eventId=" + eventId;
 	}
 
 }
