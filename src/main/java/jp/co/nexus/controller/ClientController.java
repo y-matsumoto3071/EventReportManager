@@ -6,8 +6,6 @@ package jp.co.nexus.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,9 +35,6 @@ public class ClientController {
 	ClientService clientService;
 
 	@Autowired
-	HttpSession session;
-
-	@Autowired
 	PasswordService passwordService;
 
 	/**
@@ -54,9 +49,6 @@ public class ClientController {
 
 		List<Map<String, Object>> list = clientService.searchActive();
 		model.addAttribute("client_list", list);
-
-		//編集に使ったセッションを削除
-		session.removeAttribute("c_id");
 
 		return res;
 	}
@@ -127,7 +119,7 @@ public class ClientController {
 			model.addAttribute("client_name", clt.get("client_name"));
 
 			//編集に利用する社員IDをセッションに保存
-			session.setAttribute("c_id", c_id);
+			model.addAttribute("c_id", c_id);
 		}
 
 		return res;
@@ -155,7 +147,12 @@ public class ClientController {
 		// 未入力チェック
 		if (c_name.equals("")) {
 			attributeValue = "名前を入力してください。";
-			res = "redirect:/client/edit";
+			if (isUpdating) {
+				res = "redirect:/client/edit?id=" + c_id;
+			} else {
+				res = "redirect:/client/edit";
+
+			}
 
 		// 未入力以外
 		} else {
@@ -168,11 +165,6 @@ public class ClientController {
 					res = "redirect:/client/edit?id=" + c_id;
 				} else {
 					res = "redirect:/client/edit";
-				}
-			} else {
-				// 編集中であればセッションを削除
-				if (isUpdating) {
-					session.removeAttribute("c_id");
 				}
 			}
 		}
