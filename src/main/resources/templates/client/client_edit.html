@@ -34,9 +34,9 @@
 		</div>
 		<div class="my-3">
 			<button type="submit" class="btn btn-outline-primary"
-				th:if="${session.c_id == null}">登録</button>
+				th:if="${c_id == null}">登録</button>
 			<button type="submit" class="btn btn-outline-primary ml-1"
-				th:if="${session.c_id != null}">編集</button>
+				th:if="${c_id != null}">編集</button>
 			<button type="button" class="btn btn-outline-primary ml-1"
 				onclick="location.href='/client/list'">キャンセル</button>
 		</div>

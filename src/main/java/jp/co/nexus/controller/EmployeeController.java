@@ -6,8 +6,6 @@ package jp.co.nexus.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,9 +36,6 @@ public class EmployeeController {
 	EmployeeService employeeService;
 
 	@Autowired
-	HttpSession session;
-
-	@Autowired
 	PasswordService passwordService;
 
 	EmployeeCategoryModel ecm = new EmployeeCategoryModel();
@@ -67,9 +62,6 @@ public class EmployeeController {
 		}
 
 		model.addAttribute("employee_list", list);
-
-		//編集に使ったセッションを削除
-		session.removeAttribute("e_id");
 
 		return res;
 	}
@@ -144,8 +136,8 @@ public class EmployeeController {
 			String ec = emp.get("employee_category").toString();
 			model.addAttribute("employee_category", ec);
 
-			//編集に利用する社員IDをセッションに保存
-			session.setAttribute("e_id", e_id);
+			//編集に利用する社員IDをスコープに保存
+			model.addAttribute("e_id", e_id);
 		}
 		return res;
 	}
@@ -179,12 +171,20 @@ public class EmployeeController {
 		// 未入力チェック
 		if (e_name.equals("")) {
 			attributeValue = "名前を入力してください。";
-			res = "redirect:/employee/edit";
+			if (isUpdating) {
+				res = "redirect:/employee/edit?id="+e_id;
+			} else {
+				res = "redirect:/employee/edit";
+			}
 
 		//★カテゴリ組み合わせチェック
 		} else if(check==1) {
 			attributeValue = "適切な組み合わせを選んでください。";
-			res = "redirect:/employee/edit";
+			if (isUpdating) {
+				res = "redirect:/employee/edit?id="+e_id;
+			} else {
+				res = "redirect:/employee/edit";
+			}
 
 		// DB問い合わせ前のエラーチェック通過後の処理
 		} else {
@@ -199,12 +199,6 @@ public class EmployeeController {
 					res = "redirect:/employee/edit";
 				}
 
-			// DB問い合わせ後のエラーチェック通過後の処理
-			} else {
-				// 編集中であればセッションを削除
-				if (isUpdating) {
-					session.removeAttribute("e_id");
-				}
 			}
 		}
 

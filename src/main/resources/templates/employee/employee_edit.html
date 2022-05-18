@@ -29,7 +29,7 @@
 				<label class="font-weight-bold">所属選択</label>
 			</div>
 			<div class="col-md-auto input-group-sm">
-			<input type="hidden" id="employeeId" class="form-control ml-3" name="employee_id" th:value="${session.e_id}" >
+			<input type="hidden" id="employeeId" class="form-control ml-3" name="employee_id" th:value="${e_id}" >
 			<label  style="line-height:0rem;" class="small font-weight-bold" for="select1a">グループ</label>
 			<select id="select1a" class="form-control" name="e_group">
 
@@ -84,9 +84,9 @@
 					style="width: 20em;" th:value="${employee_name}">
 				<div class="my-3">
 					<button type="submit" class="btn btn-outline-primary"
-						th:if="${session.e_id == null}">登録</button>
+						th:if="${e_id == null}">登録</button>
 					<button type="submit" class="btn btn-outline-primary ml-1"
-						th:if="${session.e_id != null}">編集</button>
+						th:if="${e_id != null}">編集</button>
 					<button type="button" class="btn btn-outline-primary ml-1"
 						onclick="location.href='/employee/list'">キャンセル</button>
 				</div>

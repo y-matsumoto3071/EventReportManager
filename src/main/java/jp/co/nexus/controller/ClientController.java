@@ -118,7 +118,7 @@ public class ClientController {
 			//編集画面に顧客名を表示
 			model.addAttribute("client_name", clt.get("client_name"));
 
-			//編集に利用する社員IDをセッションに保存
+			//編集に利用する社員IDをスコープに保存
 			model.addAttribute("c_id", c_id);
 		}
 
