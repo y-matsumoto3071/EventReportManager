@@ -31,7 +31,9 @@ public class Report {
 	private String eventSession; // 質疑応答
 	private String eventReport; // 考察
 	private String eventFeedbackByCCG; // CCG評価
-	private String eventFeedbackContent; // CCG評価
+	private String eventFeedbackContent; // 管理者所見
+	private String eventFeedbackEmployeeId; // 所見返信担当ID
+	private String eventStatus; // 状態区分
 
 	public String getCcgId() {
 		return ccgId;
@@ -177,6 +179,22 @@ public class Report {
 		this.eventFeedbackContent = eventFeedbackContent;
 	}
 
+	public String getEventFeedbackEmployeeId() {
+		return eventFeedbackEmployeeId;
+	}
+
+	public void setEventFeedbackEmployeeId(String eventFeedbackEmployeeId) {
+		this.eventFeedbackEmployeeId = eventFeedbackEmployeeId;
+	}
+
+	public String getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(String eventStatus) {
+		this.eventStatus = eventStatus;
+	}
+
 	public void setEntity(Map<String, Object> reportMap) {
 		this.createEmployeeId = reportMap.get("event_entry_employee_id").toString();
 		this.ccgId = reportMap.get("event_sales_employee_id").toString();
@@ -195,7 +213,19 @@ public class Report {
 		this.eventSession = reportMap.get("event_session").toString();
 		this.eventReport = reportMap.get("event_report").toString();
 		this.eventFeedbackByCCG = reportMap.get("event_feedback_byccg").toString();
-		this.eventFeedbackContent = reportMap.get("event_feedback_content").toString();
+		try {
+			this.eventFeedbackEmployeeId = reportMap.get("event_feedback_employee_id").toString();
+		} catch(NullPointerException e) {
+			System.out.println("管理者所見担当IDがnullです。空文字に変換します。");
+			this.eventFeedbackEmployeeId = "";
+		}
+		try {
+			this.eventFeedbackContent = reportMap.get("event_feedback_content").toString();
+		} catch(NullPointerException e) {
+			System.out.println("管理者所見がnullです。空文字に変換します。");
+			this.eventFeedbackContent = "";
+		}
+		this.eventStatus = reportMap.get("event_status").toString();
 
 	}
 
